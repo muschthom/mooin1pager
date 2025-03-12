@@ -1,0 +1,85 @@
+{{!
+    @template format_mooin1pager/local/content/frontpage/header
+
+    Displays the frontpage header.
+
+    Example context (json):
+    {
+        "headerimageURL": URL
+    }
+}}
+{{#previewPost}}
+<div class="coursefrontpage__news-section">
+    <h2>News</h2>
+    <div class="d-none d-sm-block">
+        <span class="unread-info mb-3 d-inline-block">
+        {{#no_new_news}}
+           0 {{#str}} unread_news, format_mooin1pager {{/str}} <a href="{{{newsforumUrl}}}"> {{#str}} all_news, format_mooin1pager {{/str}}</a>
+        {{/no_new_news}}
+        {{^no_new_news}}
+            {{#one_new_news}}
+                <a href="{{{newsforumUrl}}}"><span class="notification-badge mr-1">{{{unreadNewsNumber}}}</span>{{#str}} unread_news_single, format_mooin1pager {{/str}} {{#str}} all_news, format_mooin1pager {{/str}}</a>
+            {{/one_new_news}}
+            {{^one_new_news}}
+                <a href="{{{newsforumUrl}}}"><span class="notification-badge mr-1">{{{unreadNewsNumber}}}</span>{{#str}} unread_news, format_mooin1pager {{/str}} {{#str}} all_news, format_mooin1pager {{/str}}</a>
+            {{/one_new_news}}
+        {{/no_new_news}}
+        </span>
+
+        
+        <div class="news-preview">
+            <div class="d-flex align-items-center">
+                <span>
+                    <i class="bi bi-newspaper mr-1"></i>
+                    <span class="caption--sm">
+                        <a href="{{{discussion_url}}}" class="caption caption--sm">{{#str}} latest_post, format_mooin1pager {{/str}}</a>
+                        {{#str}} by, format_mooin1pager {{/str}}
+                        {{{user_firstname}}} - {{{created_news}}}
+                    </span>
+                    
+                </span>
+            </div>
+            <div class="news-post-preview">
+                <div>
+                    {{{user_picture}}}
+                </div>
+                <div class="text-truncate">
+                    <span class="news-title">{{{news_title}}}</span>
+                    <span class="news-text">{{{news_text}}}</span>
+                </div>
+            </div>
+            <div class="discussion-link">
+                <a href="{{{discussion_url}}}">{{#str}} discussion_news, format_mooin1pager {{/str}}</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="news-mobile d-flex d-sm-none">
+        <div class="position-relative">
+            <i class="bi bi-newspaper mr-2"></i>
+            {{^no_new_news}}
+            <span class="notification-badge notification-badge--mobile position-absolute">{{{unreadNewsNumber}}}</span>
+            {{/no_new_news}}
+        </div>
+       
+       
+            <div class="d-flex flex-column">
+                <a href="{{{discussion_url}}}" class="caption caption--sm">{{#str}} latest_post, format_mooin1pager {{/str}}</a>
+                <span class="news-title">{{{news_title}}}</span>
+            </div>
+        
+        <a href="{{{newsforumUrl}}}" class="ml-auto">{{#str}} all_news_mobile, format_mooin1pager {{/str}}</a>
+    </div>
+    
+</div>
+<div class="seperator"></div>
+{{/previewPost}}
+
+{{^previewPost}}
+{{#showGear}}
+        <div class="text-center text-sm-right p-2 mr-sm-4">
+            <span>{{#str}} newsforum_settings, format_mooin1pager {{/str}} -</span>
+            <a href="{{newsforumUrl}}"><i class="bi bi-gear-fill"></i></a>
+        </div>
+{{/showGear}}
+{{/previewPost}}

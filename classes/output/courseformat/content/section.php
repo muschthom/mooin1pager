@@ -17,12 +17,12 @@
 /**
  * Contains the default section controls output class.
  *
- * @package   format_topics
+ * @package   format_mooin1pager
  * @copyright 2020 Ferran Recio <ferran@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_topics\output\courseformat\content;
+namespace format_mooin1pager\output\courseformat\content;
 
 use core_courseformat\base as course_format;
 use core_courseformat\output\local\content\section as section_base;
@@ -31,7 +31,7 @@ use stdClass;
 /**
  * Base class to render a course section.
  *
- * @package   format_topics
+ * @package   format_mooin1pager
  * @copyright 2020 Ferran Recio <ferran@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

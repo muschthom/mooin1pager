@@ -17,12 +17,12 @@
 /**
  * Contains the default section controls output class.
  *
- * @package   format_topics
+ * @package   format_mooin1pager
  * @copyright 2020 Ferran Recio <ferran@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_topics\output\courseformat\content\section;
+namespace format_mooin1pager\output\courseformat\content\section;
 
 use core_courseformat\output\local\content\section\controlmenu as controlmenu_base;
 use moodle_url;
@@ -30,7 +30,7 @@ use moodle_url;
 /**
  * Base class to render a course section menu.
  *
- * @package   format_topics
+ * @package   format_mooin1pager
  * @copyright 2020 Ferran Recio <ferran@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

@@ -1,0 +1,70 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core_courseformat/local/courseindex/drawer
+
+    This template renders the course index drawer with the placeholder.
+
+    The code from this file is just an stub as the final code will come from
+    the new layouts for Moodle 4.0.
+
+    Example context (json):
+    {}
+}}
+<nav id="courseindex" class="courseindex">
+    <div class="nav-links d-flex flex-column">
+        
+        {{#overview}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><i class="bi bi-signpost-2-fill"></i> {{#str}} course_overview, format_mooin1pager {{/str}}</a>
+        {{/overview}}
+        {{#newsforum}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><i class="bi bi-newspaper"></i> {{#str}} news, format_mooin1pager {{/str}}</a>
+        {{/newsforum}}
+        {{#badges}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><i class="bi bi-trophy-fill"></i> {{#str}} badges, format_mooin1pager {{/str}}</a>
+        {{/badges}}
+        {{#certificates}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><i class="bi bi-award-fill"></i> {{#str}} certificates, format_mooin1pager {{/str}}</a>
+        {{/certificates}}
+        {{#coursecompetencies}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><i class="bi bi-radar"></i> {{#str}} coursecompetencies, tool_lp {{/str}}</a>
+        {{/coursecompetencies}}
+        {{#discussions}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><span class="chat-icon pr-2">
+                <i class="bi bi-chat-left"></i>
+                <i class="bi bi-chat-right-text-fill"></i>
+                </span>{{#str}} forums, format_mooin1pager {{/str}}
+            </a>
+        {{/discussions}}
+        {{#participants}}
+            <a href="{{url}}" class="{{#active}}active{{/active}}"><i class="bi bi-people-fill"></i> {{#str}} participants, format_mooin1pager {{/str}}</a>
+        {{/participants}}
+    </div>
+    
+    <div id="courseindex-content">
+        {{> format_mooin1pager/local/courseindex/placeholders }}
+    </div>
+
+    {{#unenrolurl}}
+        <a href="{{{unenrolurl}}}" class="mooin1pager-btn unenrol-btn">{{#str}}unenrol, format_mooin1pager{{/str}}<i class="bi bi-box-arrow-right"></i></a>
+    {{/unenrolurl}}
+</nav>
+{{#js}}
+require(['core_courseformat/local/courseindex/drawer'], function(component) {
+    component.init('courseindex');
+});
+{{/js}}

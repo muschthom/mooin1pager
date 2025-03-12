@@ -14,14 +14,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Format topics mutations.
+ * Format mooin1pager mutations.
  *
  * An instance of this class will be used to add custom mutations to the course editor.
  * To make sure the addMutations method find the proper functions, all functions must
  * be declared as class attributes, not a simple methods. The reason is because many
  * plugins can add extra mutations to the course editor.
  *
- * @module     format_topics/mutations
+ * @module     format_mooin1pager/mutations
  * @copyright  2022 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,7 +30,7 @@ import {getCurrentCourseEditor} from 'core_courseformat/courseeditor';
 import DefaultMutations from 'core_courseformat/local/courseeditor/mutations';
 import CourseActions from 'core_courseformat/local/content/actions';
 
-class TopicsMutations extends DefaultMutations {
+class mooin1pagerMutations extends DefaultMutations {
 
     /**
      * Highlight sections.
@@ -46,7 +46,7 @@ class TopicsMutations extends DefaultMutations {
             stateManager,
             'section_highlight',
             sectionIds,
-            {component: 'format_topics'}
+            {component: 'format_mooin1pager'}
         );
         const course = stateManager.get('course');
         this.sectionLock(stateManager, sectionIds, true);
@@ -71,7 +71,7 @@ class TopicsMutations extends DefaultMutations {
             stateManager,
             'section_unhighlight',
             sectionIds,
-            {component: 'format_topics'}
+            {component: 'format_mooin1pager'}
         );
         const course = stateManager.get('course');
         this.sectionLock(stateManager, sectionIds, true);
@@ -86,7 +86,7 @@ export const init = () => {
     const courseEditor = getCurrentCourseEditor();
     // Some plugin (activity or block) may have their own mutations already registered.
     // This is why we use addMutations instead of setMutations here.
-    courseEditor.addMutations(new TopicsMutations());
+    courseEditor.addMutations(new mooin1pagerMutations());
     // Add direct mutation content actions.
     CourseActions.addActions({
         sectionHighlight: 'sectionHighlight',

@@ -1,4 +1,4 @@
-@format @format_topics
+@format @format_mooin1pager
 Feature: Sections can be edited and deleted in custom sections format
   In order to rearrange my course contents
   As a teacher
@@ -10,8 +10,8 @@ Feature: Sections can be edited and deleted in custom sections format
       | teacher1 | Teacher   | 1        | teacher1@example.com |
     And the following "courses" exist:
       | fullname | shortname | format | coursedisplay | numsections | initsections |
-      | Course 1 | C1        | topics | 0             | 5           | 1            |
-      | Course 2 | C2        | topics | 0             | 1           | 0            |
+      | Course 1 | C1        | mooin1pager | 0             | 5           | 1            |
+      | Course 2 | C2        | mooin1pager | 0             | 1           | 0            |
     And the following "activities" exist:
       | activity   | name                   | intro                         | course | idnumber    | section |
       | assign     | Test assignment name   | Test assignment description   | C1     | assign1     | 0       |

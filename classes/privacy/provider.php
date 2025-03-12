@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for Topics course format.
+ * Privacy Subsystem implementation for mooin1pager course format.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_topics\privacy;
+namespace format_mooin1pager\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 use core_privacy\local\metadata\null_provider;
 
 /**
- * Privacy Subsystem for Topics course format implementing null_provider.
+ * Privacy Subsystem for mooin1pager course format implementing null_provider.
  *
  * @copyright  2018 Carlos Escobedo <carlos@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

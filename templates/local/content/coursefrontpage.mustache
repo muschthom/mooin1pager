@@ -1,0 +1,52 @@
+{{!
+@template format_mooin1pager/local/content/coursefrontpage
+
+Displays the course frontpage.
+
+Example context (json):
+{
+"header": {
+"headerimageURL": URL,
+},
+"coursename": "Coursename",
+"coureprogress": {
+
+}
+}
+}}
+
+    <div class="coursefrontpage">
+        <div class="coursefrontpage__main">
+            {{#header}}
+                {{> format_mooin1pager/local/content/frontpage/header }}
+            {{/header}}
+            <div class="mobile-bg">
+                {{#news_section}}
+                {{> format_mooin1pager/local/content/frontpage/news_section }}                
+                {{/news_section}}
+                
+                {{#courseprogress}}
+                    {{> format_mooin1pager/local/content/frontpage/courseprogress }}
+                {{/courseprogress}}
+                <div class="seperator"></div>
+                {{> format_mooin1pager/local/content/frontpage/tabletTiles }}
+                {{> format_mooin1pager/local/content/frontpage/mobileTiles }}
+                {{! format_mooin1pager/local/content/frontpage/coursetable }}
+                {{#sections}}
+                    {{> core_courseformat/local/content/section }}
+                {{/sections}}
+                {{#unenrolurl}}
+                    <a href="{{{unenrolurl}}}" class="unenrol-btn">{{#str}}unenrol, format_mooin1pager{{/str}}</a>
+                {{/unenrolurl}}
+            </div>
+            
+        </div>
+        <div class="coursefrontpage__side d-none d-lg-flex">
+            {{> format_mooin1pager/local/content/frontpage/badges_and_certificates }}
+            {{> format_mooin1pager/local/content/frontpage/community }}
+        </div> 
+    </div>
+
+
+    
+

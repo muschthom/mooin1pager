@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace format_topics\courseformat;
+namespace format_mooin1pager\courseformat;
 
 use core_courseformat\stateupdates;
 use core_courseformat\stateactions as stateactions_base;
@@ -28,9 +28,9 @@ use context_module;
 use context_course;
 
 /**
- * Contains the core course state actions specific to topics format.
+ * Contains the core course state actions specific to mooin1pager format.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2022 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

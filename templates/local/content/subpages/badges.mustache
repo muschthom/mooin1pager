@@ -1,0 +1,24 @@
+
+
+<div class="subpage">
+    {{{breadcrumb}}}
+    <div class="subpage--badges d-flex flex-column">
+        <h2>{{#str}} badges, format_mooin1pager {{/str}}</h2>
+        <p>{{#str}} badge_overview_description, format_mooin1pager {{/str}}</p>
+        <a href="{{{userBadges}}}">{{#str}} profile_badges, format_mooin1pager {{/str}}</a>
+        <a href="{{{badgeOptions}}}">{{#str}} badge_options, format_mooin1pager {{/str}}</a>
+        <h2 class="mt-3">{{#str}} overview, format_mooin1pager {{/str}}</h2>
+        {{#badges}}
+        <div class="border-card">
+            {{{badges}}}
+        </div>
+        {{/badges}}
+        {{^badges}}
+            <div class="no-badges-container">
+                <div class="no-badges-img"></div>
+                <span class="blue-info-text">{{#str}} no_badges_image_text, format_mooin1pager{{/str}}</span>
+            </div>
+        {{/badges}}
+    </div>
+    
+</div>

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Topics course format. Display the whole course as "topics" made of modules.
+ * mooin1pager course format. Display the whole course as "mooin1pager" made of modules.
  *
- * @package format_topics
+ * @package format_mooin1pager
  * @copyright 2006 The Open University
  * @author N.D.Freear@open.ac.uk, and others.
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -50,7 +50,7 @@ if (($marker >= 0) && has_capability('moodle/course:setcurrentsection', $context
 // Make sure section 0 is created.
 course_create_sections_if_missing($course, 0);
 
-$renderer = $PAGE->get_renderer('format_topics');
+$renderer = $PAGE->get_renderer('format_mooin1pager');
 
 if (!is_null($displaysection)) {
     $format->set_sectionnum($displaysection);

@@ -1,0 +1,40 @@
+{{!
+    @template format_mooin1pager/local/content/frontpage/header
+
+    Displays the frontpage header.
+
+    Example context (json):
+    {
+        "headerimageURL": URL
+    }
+}}
+
+<div class="coursefrontpage__header">
+    {{#editheaderlink}}
+    <a href="{{{editheaderlink}}}" class="edit-header-img"><i class="bi bi-gear-fill"></i></a>
+    {{/editheaderlink}}
+    {{#headerimageURL}}
+        <img src="{{{headerimageURL}}}" alt="" class="header-image">
+    {{/headerimageURL}}
+    {{^headerimageURL}}
+        <div class="desktop-placeholder d-none d-sm-block"></div>
+    {{/headerimageURL}}
+
+    {{#headerimageURLMobile}}
+        <img src="{{{headerimageURLMobile}}}" alt="" class="header-image">
+    {{/headerimageURLMobile}}
+    {{^headerimageURLMobile}}
+        <div class="mobile-placeholder d-block d-sm-none"></div>
+    {{/headerimageURLMobile}}
+
+    <div class="title-overlay position-absolute" data-for="title-overlay">
+        <p> {{#str}}welcome, format_mooin1pager{{/str}} </p>
+        <h2>{{coursename}}</h2>
+        {{#is_course_started}}
+            <a href="{{{continue_url}}}" class="mooin1pager-btn mooin1pager-btn--primary d-flex d-sm-none">{{#str}} continue, format_mooin1pager, {{continue_section}}{{/str}} <i class="bi bi-caret-right-fill"></i></a>
+        {{/is_course_started}}
+        {{^is_course_started}}
+            <a href="{{{continue_url}}}" class="mooin1pager-btn mooin1pager-btn--primary d-flex d-sm-none">{{#str}} start, format_mooin1pager, {{continue_section}}{{/str}} <i class="bi bi-caret-right-fill"></i></a>
+        {{/is_course_started}}
+    </div>
+</div>

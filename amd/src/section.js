@@ -14,9 +14,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Format topics section extra logic component.
+ * Format mooin1pager section extra logic component.
  *
- * @module     format_topics/section
+ * @module     format_mooin1pager/section
  * @copyright  2022 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,7 +32,7 @@ class HighlightSection extends BaseComponent {
      */
     create() {
         // Optional component name for debugging.
-        this.name = 'format_topics_section';
+        this.name = 'format_mooin1pager_section';
         // Default query selectors.
         this.selectors = {
             SETMARKER: `[data-action="sectionHighlight"]`,
@@ -44,7 +44,7 @@ class HighlightSection extends BaseComponent {
         this.classes = {
             HIDE: 'd-none',
         };
-        // The topics format section specific actions.
+        // The mooin1pager format section specific actions.
         this.formatActions = {
             HIGHLIGHT: 'sectionHighlight',
             UNHIGHLIGHT: 'sectionUnhighlight',

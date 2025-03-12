@@ -15,20 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Upgrade scripts for Topics course format.
+ * Upgrade scripts for mooin1pager course format.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2017 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Upgrade script for Topics course format.
+ * Upgrade script for mooin1pager course format.
  *
  * @param int|float $oldversion the version we are upgrading from
  * @return bool result
  */
-function xmldb_format_topics_upgrade($oldversion) {
+function xmldb_format_mooin1pager_upgrade($oldversion) {
     global $DB;
 
     // Automatically generated Moodle v4.1.0 release upgrade line.
@@ -38,11 +38,11 @@ function xmldb_format_topics_upgrade($oldversion) {
         // For sites migrating from 4.0.x or 4.1.x where the indentation was removed,
         // we are disabling 'indentation' value by default.
         if ($oldversion >= 2022041900) {
-            set_config('indentation', 0, 'format_topics');
+            set_config('indentation', 0, 'format_mooin1pager');
         } else {
-            set_config('indentation', 1, 'format_topics');
+            set_config('indentation', 1, 'format_mooin1pager');
         }
-        upgrade_plugin_savepoint(true, 2023030700, 'format', 'topics');
+        upgrade_plugin_savepoint(true, 2023030700, 'format', 'mooin1pager');
     }
 
     // Automatically generated Moodle v4.2.0 release upgrade line.
@@ -59,14 +59,14 @@ function xmldb_format_topics_upgrade($oldversion) {
                     UPDATE {course_sections}
                        SET name = $newsectionname
                      WHERE section > 0 AND (name IS NULL OR name = '')
-                           AND course IN (SELECT id FROM {course} WHERE format = 'topics')
+                           AND course IN (SELECT id FROM {course} WHERE format = 'mooin1pager')
         EOF;
         $DB->execute(
             sql: $sql,
         );
 
         // Main savepoint reached.
-        upgrade_plugin_savepoint(true, 2023100901, 'format', 'topics');
+        upgrade_plugin_savepoint(true, 2023100901, 'format', 'mooin1pager');
     }
 
     // Automatically generated Moodle v4.4.0 release upgrade line.

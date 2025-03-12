@@ -15,27 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains main class for Topics course format.
+ * This file contains main class for mooin1pager course format.
  *
  * @since     Moodle 2.0
- * @package   format_topics
+ * @package   format_mooin1pager
  * @copyright 2009 Sam Hemelryk
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot. '/course/format/lib.php');
+require_once($CFG->dirroot . '/course/format/lib.php');
 
 use core\output\inplace_editable;
 
 /**
- * Main class for the Topics course format.
+ * Main class for the mooin1pager course format.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2012 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_topics extends core_courseformat\base {
+class format_mooin1pager extends core_courseformat\base {
 
     /**
      * Returns true if this course format uses sections.
@@ -51,7 +51,7 @@ class format_topics extends core_courseformat\base {
     }
 
     public function uses_indentation(): bool {
-        return (get_config('format_topics', 'indentation')) ? true : false;
+        return (get_config('format_mooin1pager', 'indentation')) ? true : false;
     }
 
     /**
@@ -65,15 +65,32 @@ class format_topics extends core_courseformat\base {
     public function get_section_name($section) {
         $section = $this->get_section($section);
         if ((string)$section->name !== '') {
-            return format_string($section->name, true,
-                ['context' => context_course::instance($this->courseid)]);
+            return format_string(
+                $section->name,
+                true,
+                ['context' => context_course::instance($this->courseid)]
+            );
         } else {
             return $this->get_default_section_name($section);
         }
     }
 
     /**
-     * Returns the default section name for the topics course format.
+     * Get the course display value for the current course.
+     *
+     * Formats extending topics or weeks will use coursedisplay as this setting name
+     * so they don't need to override the method. However, if the format uses a different
+     * display logic it must override this method to ensure the core renderers know
+     * if a COURSE_DISPLAY_MULTIPAGE or COURSE_DISPLAY_SINGLEPAGE is being used.
+     *
+     * @return int The current value (COURSE_DISPLAY_MULTIPAGE or COURSE_DISPLAY_SINGLEPAGE)
+     */
+    public function get_course_display(): int {
+        return COURSE_DISPLAY_SINGLEPAGE;
+    }
+
+    /**
+     * Returns the default section name for the mooin1pager course format.
      *
      * If the section number is 0, it will use the string with key = section0name from the course format's lang file.
      * If the section number is not 0, it will consistently return the name 'newsection', disregarding the specific section number.
@@ -84,10 +101,10 @@ class format_topics extends core_courseformat\base {
     public function get_default_section_name($section) {
         $section = $this->get_section($section);
         if ($section->sectionnum == 0) {
-            return get_string('section0name', 'format_topics');
+            return get_string('section0name', 'format_mooin1pager');
         }
 
-        return get_string('newsection', 'format_topics');
+        return get_string('newsection', 'format_mooin1pager');
     }
 
     /**
@@ -157,8 +174,10 @@ class format_topics extends core_courseformat\base {
         // If section is specified in course/view.php, make sure it is expanded in navigation.
         if ($navigation->includesectionnum === false) {
             $selectedsection = optional_param('section', null, PARAM_INT);
-            if ($selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
-                    $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+            if (
+                $selectedsection !== null && (!defined('AJAX_SCRIPT') || AJAX_SCRIPT == '0') &&
+                $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)
+            ) {
                 $navigation->includesectionnum = $selectedsection;
             }
         }
@@ -217,7 +236,7 @@ class format_topics extends core_courseformat\base {
     /**
      * Definitions of the additional options that this course format uses for course.
      *
-     * Topics format uses the following options:
+     * mooin1pager format uses the following options:
      * - coursedisplay
      * - hiddensections
      *
@@ -305,7 +324,7 @@ class format_topics extends core_courseformat\base {
     /**
      * Updates format options for a course.
      *
-     * In case if course format was changed to 'topics', we try to copy options
+     * In case if course format was changed to 'mooin1pager', we try to copy options
      * 'coursedisplay' and 'hiddensections' from the previous format.
      *
      * @param stdClass|array $data return value from {@link moodleform::get_data()} or array with data
@@ -380,7 +399,7 @@ class format_topics extends core_courseformat\base {
         global $PAGE;
 
         if ($section->section && ($action === 'setmarker' || $action === 'removemarker')) {
-            // Format 'topics' allows to set and remove markers in addition to common section actions.
+            // Format 'mooin1pager' allows to set and remove markers in addition to common section actions.
             require_capability('moodle/course:setcurrentsection', context_course::instance($this->courseid));
             course_set_marker($this->courseid, ($action === 'setmarker') ? $section->section : 0);
             return null;
@@ -388,7 +407,7 @@ class format_topics extends core_courseformat\base {
 
         // For show/hide actions call the parent method and return the new content for .section_availability element.
         $rv = parent::section_action($section, $action, $sr);
-        $renderer = $PAGE->get_renderer('format_topics');
+        $renderer = $PAGE->get_renderer('format_mooin1pager');
 
         if (!($section instanceof section_info)) {
             $modinfo = course_modinfo::instance($this->courseid);
@@ -410,7 +429,7 @@ class format_topics extends core_courseformat\base {
     public function get_config_for_external() {
         // Return everything (nothing to hide).
         $formatoptions = $this->get_format_options();
-        $formatoptions['indentation'] = get_config('format_topics', 'indentation');
+        $formatoptions['indentation'] = get_config('format_mooin1pager', 'indentation');
         return $formatoptions;
     }
 
@@ -432,13 +451,15 @@ class format_topics extends core_courseformat\base {
  * @param mixed $newvalue
  * @return inplace_editable
  */
-function format_topics_inplace_editable($itemtype, $itemid, $newvalue) {
+function format_mooin1pager_inplace_editable($itemtype, $itemid, $newvalue) {
     global $DB, $CFG;
     require_once($CFG->dirroot . '/course/lib.php');
     if ($itemtype === 'sectionname' || $itemtype === 'sectionnamenl') {
         $section = $DB->get_record_sql(
             'SELECT s.* FROM {course_sections} s JOIN {course} c ON s.course = c.id WHERE s.id = ? AND c.format = ?',
-            [$itemid, 'topics'], MUST_EXIST);
+            [$itemid, 'mooin1pager'],
+            MUST_EXIST
+        );
         return course_get_format($section->course)->inplace_editable_update_section_name($section, $itemtype, $newvalue);
     }
 }

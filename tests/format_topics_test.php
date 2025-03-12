@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace format_topics;
+namespace format_mooin1pager;
 
 use core_external\external_api;
 
@@ -24,17 +24,17 @@ global $CFG;
 require_once($CFG->dirroot . '/course/lib.php');
 
 /**
- * Topics course format related unit tests.
+ * mooin1pager course format related unit tests.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2015 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @covers     \format_topics
+ * @covers     \format_mooin1pager
  */
-class format_topics_test extends \advanced_testcase {
+class format_mooin1pager_test extends \advanced_testcase {
 
     /**
-     * Tests for format_topics::get_section_name method with default section names.
+     * Tests for format_mooin1pager::get_section_name method with default section names.
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class format_topics_test extends \advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'topics'],
+        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'mooin1pager'],
             ['createsections' => true]);
 
         // Get section names for course.
@@ -60,7 +60,7 @@ class format_topics_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_topics::get_section_name method with modified section names.
+     * Tests for format_mooin1pager::get_section_name method with modified section names.
      *
      * @return void
      */
@@ -71,7 +71,7 @@ class format_topics_test extends \advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'topics'],
+        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'mooin1pager'],
             ['createsections' => true]);
 
         // Get section names for course.
@@ -94,7 +94,7 @@ class format_topics_test extends \advanced_testcase {
     }
 
     /**
-     * Tests for format_topics::get_default_section_name.
+     * Tests for format_mooin1pager::get_default_section_name.
      *
      * @return void
      */
@@ -105,7 +105,7 @@ class format_topics_test extends \advanced_testcase {
         // Generate a course with 5 sections.
         $generator = $this->getDataGenerator();
         $numsections = 5;
-        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'topics'],
+        $course = $generator->create_course(['numsections' => $numsections, 'format' => 'mooin1pager'],
             ['createsections' => true]);
 
         // Get section names for course.
@@ -115,10 +115,10 @@ class format_topics_test extends \advanced_testcase {
         $courseformat = course_get_format($course);
         foreach ($coursesections as $section) {
             if ($section->section == 0) {
-                $sectionname = get_string('section0name', 'format_topics');
+                $sectionname = get_string('section0name', 'format_mooin1pager');
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             } else {
-                $sectionname = get_string('newsection', 'format_topics');
+                $sectionname = get_string('newsection', 'format_mooin1pager');
                 $this->assertEquals($sectionname, $courseformat->get_default_section_name($section));
             }
         }
@@ -136,13 +136,13 @@ class format_topics_test extends \advanced_testcase {
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
-        $course = $this->getDataGenerator()->create_course(['numsections' => 5, 'format' => 'topics'],
+        $course = $this->getDataGenerator()->create_course(['numsections' => 5, 'format' => 'mooin1pager'],
             ['createsections' => true]);
         $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
 
         // Call webservice without necessary permissions.
         try {
-            \core_external::update_inplace_editable('format_topics', 'sectionname', $section->id, 'New section name');
+            \core_external::update_inplace_editable('format_mooin1pager', 'sectionname', $section->id, 'New section name');
             $this->fail('Exception expected');
         } catch (\moodle_exception $e) {
             $this->assertEquals('Course or activity not accessible. (Not enrolled)',
@@ -153,7 +153,7 @@ class format_topics_test extends \advanced_testcase {
         $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
 
-        $res = \core_external::update_inplace_editable('format_topics', 'sectionname', $section->id, 'New section name');
+        $res = \core_external::update_inplace_editable('format_mooin1pager', 'sectionname', $section->id, 'New section name');
         $res = external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
         $this->assertEquals('New section name', $res['value']);
         $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
@@ -169,7 +169,7 @@ class format_topics_test extends \advanced_testcase {
 
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();
-        $course = $this->getDataGenerator()->create_course(['numsections' => 5, 'format' => 'topics'],
+        $course = $this->getDataGenerator()->create_course(['numsections' => 5, 'format' => 'mooin1pager'],
             ['createsections' => true]);
         $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
@@ -177,8 +177,8 @@ class format_topics_test extends \advanced_testcase {
 
         $section = $DB->get_record('course_sections', ['course' => $course->id, 'section' => 2]);
 
-        // Call callback format_topics_inplace_editable() directly.
-        $tmpl = component_callback('format_topics', 'inplace_editable', ['sectionname', $section->id, 'Rename me again']);
+        // Call callback format_mooin1pager_inplace_editable() directly.
+        $tmpl = component_callback('format_mooin1pager', 'inplace_editable', ['sectionname', $section->id, 'Rename me again']);
         $this->assertInstanceOf('core\output\inplace_editable', $tmpl);
         $res = $tmpl->export_for_template($PAGE->get_renderer('core'));
         $this->assertEquals('Rename me again', $res['value']);
@@ -207,7 +207,7 @@ class format_topics_test extends \advanced_testcase {
 
         $this->setTimezone('UTC');
 
-        $params = ['format' => 'topics', 'numsections' => 5, 'startdate' => 1445644800];
+        $params = ['format' => 'mooin1pager', 'numsections' => 5, 'startdate' => 1445644800];
         $course = $this->getDataGenerator()->create_course($params);
         $category = $DB->get_record('course_categories', ['id' => $course->category]);
 
@@ -243,7 +243,7 @@ class format_topics_test extends \advanced_testcase {
 
         // Generate a course with two sections (0 and 1) and two modules.
         $generator = $this->getDataGenerator();
-        $course1 = $generator->create_course(['format' => 'topics']);
+        $course1 = $generator->create_course(['format' => 'mooin1pager']);
         course_create_sections_if_missing($course1, [0, 1]);
 
         $data = (object)['id' => $course1->id];
@@ -277,7 +277,7 @@ class format_topics_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
 
-        $course = $generator->create_course(['format' => 'topics']);
+        $course = $generator->create_course(['format' => 'mooin1pager']);
         $format = course_get_format($course);
         $this->assertEmpty($format->get_required_jsfiles());
     }

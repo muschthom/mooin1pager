@@ -1,4 +1,4 @@
-@format @format_topics
+@format @format_mooin1pager
 Feature: Sections can be highlighted
   In order to mark sections
   As a teacher
@@ -11,7 +11,7 @@ Feature: Sections can be highlighted
     And the following "course" exists:
       | fullname      | Course 1 |
       | shortname     | C1       |
-      | format        | topics   |
+      | format        | mooin1pager   |
       | coursedisplay | 0        |
       | numsections   | 5        |
       | initsections  | 1        |

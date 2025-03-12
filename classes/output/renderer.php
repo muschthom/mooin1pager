@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace format_topics\output;
+namespace format_mooin1pager\output;
 
 use core_courseformat\output\section_renderer;
 use moodle_page;
 
 /**
- * Basic renderer for topics format.
+ * Basic renderer for mooin1pager format.
  *
  * @copyright 2012 Dan Poltawski
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -36,7 +36,7 @@ class renderer extends section_renderer {
     public function __construct(moodle_page $page, $target) {
         parent::__construct($page, $target);
 
-        // Since format_topics_renderer::section_edit_control_items() only displays the 'Highlight' control
+        // Since format_mooin1pager_renderer::section_edit_control_items() only displays the 'Highlight' control
         // when editing mode is on we need to be sure that the link 'Turn editing mode on' is available for a user
         // who does not have any other managing capability.
         $page->set_other_editing_capability('moodle/course:setcurrentsection');

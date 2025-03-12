@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace format_topics\courseformat;
+namespace format_mooin1pager\courseformat;
 
 use core_courseformat\stateupdates;
 use moodle_exception;
 use stdClass;
 
 /**
- * Topics course format related unit tests.
+ * mooin1pager course format related unit tests.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2022 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -62,7 +62,7 @@ class stateactions_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(
-            ['numsections' => 4, 'format' => 'topics'],
+            ['numsections' => 4, 'format' => 'mooin1pager'],
             ['createsections' => true]
         );
 
@@ -130,7 +130,7 @@ class stateactions_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator();
         $course = $generator->create_course(
-            ['numsections' => 4, 'format' => 'topics'],
+            ['numsections' => 4, 'format' => 'mooin1pager'],
             ['createsections' => true]
         );
 

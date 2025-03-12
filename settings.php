@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for format_topics
+ * Settings for format_mooin1pager
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  2020 Amaia Anabitarte <amaia@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,12 +25,12 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $url = new moodle_url('/admin/course/resetindentation.php', ['format' => 'topics']);
+    $url = new moodle_url('/admin/course/resetindentation.php', ['format' => 'mooin1pager']);
     $link = html_writer::link($url, get_string('resetindentation', 'admin'));
     $settings->add(new admin_setting_configcheckbox(
-        'format_topics/indentation',
-        new lang_string('indentation', 'format_topics'),
-        new lang_string('indentation_help', 'format_topics').'<br />'.$link,
+        'format_mooin1pager/indentation',
+        new lang_string('indentation', 'format_mooin1pager'),
+        new lang_string('indentation_help', 'format_mooin1pager').'<br />'.$link,
         1
     ));
 }

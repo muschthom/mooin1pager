@@ -1,0 +1,168 @@
+{{!
+    @template format_mooin1pager/local/content/frontpage/courseprogress
+
+    Displays the frontpage courseprogress.
+
+    Example context (json):
+    {
+       TODO
+    }
+}}
+
+<div class="coursefrontpage__community d-flex flex-column">
+    <span class="d-flex">
+        <h2>{{#str}} community, format_mooin1pager {{/str}}</h2>
+        {{#has_capability}}
+            <button type="button" class="btn info-tip p-0 ml-auto d-none d-lg-block" data-toggle="tooltip" data-placement="top"
+                title="{{#str}} discussions_tooltip, format_mooin1pager {{/str}}">
+                <span class="bi bi-info-circle-fill"></span>
+            </button>
+        {{/has_capability}}
+    </span>
+    
+    {{#discussions}}
+    {{#previewPost}}
+    {{#discussion_url}}
+    <span class="unread-info mb-3 d-inline-block">
+        {{#no_new_news}}
+            0 {{#str}} unread_discussions, format_mooin1pager {{/str}} <a href="{{{all_discussions_url}}}"> {{#str}} discussion_forum, format_mooin1pager {{/str}}</a>
+        {{/no_new_news}}
+        {{^no_new_news}}
+            {{#one_new_news}}
+                <a href="{{{all_discussions_url}}}"><span class="notification-badge mr-1">{{{unreadNewsNumber}}}</span>{{#str}} unread_discussions_single, format_mooin1pager {{/str}} {{#str}} discussion_forum, format_mooin1pager {{/str}}</a>
+            {{/one_new_news}}
+            {{^one_new_news}}
+                <a href="{{{all_discussions_url}}}"><span class="notification-badge mr-1">{{{unreadNewsNumber}}}</span>{{#str}} unread_discussions, format_mooin1pager {{/str}} {{#str}} discussion_forum, format_mooin1pager {{/str}}</a>
+            {{/one_new_news}}
+        {{/no_new_news}}
+    </span>
+    {{/discussion_url}}
+     {{/previewPost}}
+    
+    <div class="tiles-wrapper">
+            {{#previewPost}}
+            {{#discussion_url}}
+                <div class="discussion-preview d-flex flex-column">
+                    <div class="d-flex align-items-start">
+                        <span class="chat-icon pr-2">
+                            <i class="bi bi-chat-left"></i>
+                            <i class="bi bi-chat-right-text-fill"></i>
+                        </span>
+                        <span class="caption--sm">
+                            <a href="{{{discussion_url}}}" class="caption caption--sm">{{#str}} latest_post, format_mooin1pager {{/str}}</a>
+                            {{#str}} by, format_mooin1pager {{/str}}
+                            {{{user_firstname}}} - {{{created_news}}}
+                        </span>
+                        {{#has_capability}}
+                            <button type="button" class="btn info-tip p-0 ml-auto d-none d-sm-block d-lg-none" data-toggle="tooltip" data-placement="top"
+                            title="{{#str}} discussions_tooltip, format_mooin1pager {{/str}}">
+                                <span class="bi bi-info-circle-fill"></span>
+                            </button>
+                        {{/has_capability}}
+                    </div>
+                    <div class="news-post-preview">
+                        <div class="pr-1">
+                            {{{user_picture}}}
+                        </div>
+                        <div class="text-truncate">
+                            <span class="news-title">{{{news_title}}}</span>
+                            <span class="news-text">{{{news_text}}}</span>
+                        </div>
+                    </div>
+                    <div class="discussion-link mt-auto">
+                        <a class="" href="{{{discussion_url}}}">{{#str}} discussion_news, format_mooin1pager {{/str}}</a>
+                    </div>
+                </div>
+                {{/discussion_url}}
+            
+            {{#no_discussions_available}}
+                <div class="discussion-preview d-flex flex-column d-md-flex d-lg-none justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-newspaper mr-2"></i>
+                        <span class="d-flex w-100">
+                            <a href="{{{all_discussions_url}}}" class="caption"> {{#str}} discussion_forum, format_mooin1pager {{/str}}</a>
+                            {{#has_capability}}
+                                <button type="button" class="btn info-tip ml-auto p-0" data-toggle="tooltip" data-placement="top"
+                                    title=" {{#str}} certificates_tooltip, format_mooin1pager {{/str}}">
+                                    <span class="bi bi-info-circle-fill"></span>
+                                </button>
+                            {{/has_capability}}
+                        </span>
+                    </div>
+                    <div class="d-flex">
+                        <div class="no-discussion-img"></div>
+                        <span class="blue-info-text">{{#str}} no_contributions_available, format_mooin1pager {{/str}}</span>
+                    </div>
+                    
+                    
+                    <div class="discussion-link">
+                        <a class="" href="{{{all_discussions_url}}}">{{#str}} show_all_forums, format_mooin1pager {{/str}}</a>
+                    </div>
+                </div>
+            {{/no_discussions_available}}
+            {{/previewPost}}
+        {{/discussions}}
+        {{#participants}}
+            <div class="participants-container d-flex flex-column">
+                {{#has_capability}}
+                    {{#userCardList}}
+                        <span>
+                            <i class="bi bi-people-fill"></i>
+                            <a href="{{{participantsUrl}}}" class="caption">{{#str}} user_card_title, format_mooin1pager {{/str}}</a>  
+                        </span>
+                            <div class="d-flex flex-column ml-4">
+                                <span>
+                                    <span class="font-weight-bold">
+                                        {{{user_count}}} 
+                                        {{^singleuser}}
+                                            {{#str}} user, format_mooin1pager {{/str}}
+                                        {{/singleuser}}
+                                        {{#singleuser}}
+                                            {{#str}} singleuser, format_mooin1pager {{/str}}
+                                        {{/singleuser}}
+                                    </span>
+                                    {{^singleuser}}
+                                        {{#str}} in_course, format_mooin1pager {{/str}}
+                                    {{/singleuser}}
+                                    {{#singleuser}}
+                                        {{#str}} in_course_sgl, format_mooin1pager {{/str}}
+                                    {{/singleuser}}
+                                </span>
+                                <span class="font-weight-bold caption--sm"> {{#str}} new_user, format_mooin1pager {{/str}} </span>
+                                <span class="caption--sm">
+                                    {{{user_list}}}
+                                </span>
+                            </div>
+                            <div class="participants-link mt-auto">
+                                <a href="{{{participantsUrl}}}">{{#str}} show_all_infos, format_mooin1pager {{/str}}</a>
+                            </div>
+                    {{/userCardList}}
+                {{/has_capability}}
+                {{^has_capability}}
+                    {{#userCardList}}
+                        <span>
+                            <i class="bi bi-people-fill"></i>
+                            <span class="caption">
+                                {{#str}} user_card_title, format_mooin1pager {{/str}} 
+                            </span>
+                        </span>
+                        <div class="no-participantscap-container">
+                            <div class="no-participantscap-img"></div>
+                            <span class="blue-info-text">
+                                    {{{user_count}}} 
+                                    {{^singleuser}}
+                                        {{#str}} user, format_mooin1pager {{/str}}
+                                        {{#str}} in_course, format_mooin1pager {{/str}}
+                                    {{/singleuser}}
+                                    {{#singleuser}}
+                                        {{#str}} singleuser, format_mooin1pager {{/str}}
+                                        {{#str}} in_course_sgl, format_mooin1pager {{/str}}
+                                    {{/singleuser}}
+                            </span>
+                        </div>
+                    {{/userCardList}}
+                {{/has_capability}}
+            </div>
+        {{/participants}}
+    </div>
+</div>

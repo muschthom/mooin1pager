@@ -17,13 +17,13 @@
 /**
  * Version details.
  *
- * @package    format_topics
+ * @package    format_mooin1pager
  * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024100700;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2025031101;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2024100100;        // Requires this Moodle version.
-$plugin->component = 'format_topics';    // Full name of the plugin (used for diagnostics).
+$plugin->component = 'format_mooin1pager';    // Full name of the plugin (used for diagnostics).

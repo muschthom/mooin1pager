@@ -1,0 +1,48 @@
+
+
+<div class="mobile-tiles d-flex d-sm-none flex-column">
+    <h2>{{#str}} badges_certificates, format_mooin1pager {{/str}}</h2>
+    <div class="d-flex badges-certificates-mobile mb-4">
+    {{#badges}}
+        <a href="{{{badgesUrl}}}" class="mooin1pager-btn">
+            <i class="bi bi-trophy-fill mr-1"></i>
+            {{#str}} course_badges, format_mooin1pager{{/str}}
+        </a>
+    {{/badges}}
+    {{#certificates}}
+        <a href="{{{certificatesUrl}}}" class="mooin1pager-btn">
+            <i class="bi bi-award-fill mr-1"></i>
+            {{#str}} my_certificate, format_mooin1pager{{/str}}
+        </a>
+    {{/certificates}}
+    </div>
+    <div class="seperator m-0 mb-4"></div>
+
+
+
+    <h2>{{#str}} community, format_mooin1pager {{/str}}</h2>
+    <div class="d-flex badges-certificates-mobile mb-4">
+    {{#discussions}}
+        <a href="{{{all_discussions_url}}}" class="mooin1pager-btn">
+            <span class="chat-icon pr-2 position-relative">
+                <i class="bi bi-chat-left"></i>
+                <i class="bi bi-chat-right-text-fill"></i>
+                {{^no_new_news}}
+                <span class="notification-badge notification-badge--mobile position-absolute">{{{unreadNewsNumber}}}</span>
+                {{/no_new_news}}
+            </span>
+            
+            {{#str}} forums, format_mooin1pager{{/str}}
+        </a>
+        
+    {{/discussions}}
+    
+    {{#participants}}
+        <a href="{{{participantsUrl}}}" class="mooin1pager-btn">
+            <i class="bi bi-people-fill mr-1"></i>
+            {{#str}} participants, format_mooin1pager{{/str}}
+        </a>
+    {{/participants}}
+    </div>
+    <div class="seperator m-0"></div>
+</div>
