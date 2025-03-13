@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component mooin4 course format.
+ * Strings for component mooin1pager course format.
  *
- * @package   format_mooin4
+ * @package   format_mooin1pager
  * @copyright 2022 ISy TH Lübeck <dev.ild@th-luebeck.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -40,15 +40,15 @@ $string['section0name'] = 'Allgemein';
 $string['sectionname'] = 'Abschnitt';
 $string['showfromothers'] = 'Abschnitt anzeigen';
 
-//from mooin4
+//from mooin1pager
 $string['addsections'] = 'Abschnitt hinzufügen';
 $string['editsection'] = 'Abschnitt bearbeiten';
 $string['editsectionname'] = 'Abschnitt-Name bearbeiten';
 $string['deletesection'] = 'Abschnitt löschen';
 $string['news'] = 'News';
 $string['newsectionname'] = 'Neuer Name für Abschnitt {$a}';
-$string['page-course-view-mooin4'] = 'Any course main page in mooin 4.0 format';
-$string['page-course-view-mooin4-x'] = 'Any course page in mooin 4.0 format';
+$string['page-course-view-mooin1pager'] = 'Any course main page in mooin 4.0 format';
+$string['page-course-view-mooin1pager-x'] = 'Any course page in mooin 4.0 format';
 $string['map_title'] = 'Karte der Teilnehmenden';
 $string['map_descr'] = 'Bitte trage deinen Wohnort in dein Profil ein, damit die Teilnehmendenkarte möglichst vollständig angezeigt werden kann.';
 $string['badges'] = 'Meine Kursbadges';
@@ -68,7 +68,7 @@ $string['awarded_badges'] = 'Kürzlich verliehene Badges';
 $string['hide_tabs'] = 'MOOC-Tabs verstecken';
 $string['highscore'] = 'Highscore';
 $string['in_course'] = 'In diesem Kurs';
-$string['in_mooin4'] = 'Kursübergreifend auf der Plattform';
+$string['in_mooin1pager'] = 'Kursübergreifend auf der Plattform';
 $string['lastday'] = 'In den letzten 24 Stunden';
 $string['lastweek'] = 'In den letzten 7 Tagen';
 $string['discussion_link'] = 'ID für das allgemeine Diskussionsforum';
