@@ -38,3 +38,7 @@
 .mooin1pager-btn:hover {
     text-decoration: none;
 }
+
+.course-section .section-item{
+    border-radius: 0.25rem !important;
+}
