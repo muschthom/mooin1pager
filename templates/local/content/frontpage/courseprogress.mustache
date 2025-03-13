@@ -21,15 +21,5 @@
             <span class="d-none d-sm-inline-block"> {{#str}} course_progress_text, format_mooin1pager {{/str}}</span>
             <span class="d-inline-block d-sm-none"> {{#str}} progress_text_short, format_mooin1pager {{/str}}</span>
         </div>
-        {{#is_course_started}}
-            <a href="{{{continue_url}}}" class="mooin1pager-btn mooin1pager-btn--primary d-none d-sm-flex">{{#str}} continue, format_mooin1pager, {{continue_section}}{{/str}} <i class="bi bi-caret-right-fill"></i></a>
-            <a href="{{{continue_url}}}" class="mooin1pager-btn mooin1pager-btn--primary d-flex d-sm-none">{{#str}} continue_no_lesson, format_mooin1pager, {{continue_section}}{{/str}} <i class="bi bi-caret-right-fill"></i></a>
-        {{/is_course_started}}
-        {{^is_course_started}}
-            <a href="{{{continue_url}}}" class="mooin1pager-btn mooin1pager-btn--primary d-none d-sm-flex">{{#str}} start, format_mooin1pager, {{continue_section}}{{/str}} <i class="bi bi-caret-right-fill"></i></a>
-            <a href="{{{continue_url}}}" class="mooin1pager-btn mooin1pager-btn--primary d-flex d-sm-none">{{#str}} start, format_mooin1pager, {{continue_section}}{{/str}} <i class="bi bi-caret-right-fill"></i></a>
-        {{/is_course_started}}
-        
-
     </div>
 </div>
