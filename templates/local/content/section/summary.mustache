@@ -15,18 +15,17 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template core_courseformat/local/content/section/controlmenu
+    @template core_courseformat/local/content/section/summary
 
-    Displays a section control menu (dropdown menu).
+    Displays the course section summary.
 
     Example context (json):
     {
-        "menu": "<a href=\"#\" class=\"d-inline-block dropdown-toggle icon-no-margin\">Edit<b class=\"caret\"></b></a>",
-        "hasmenu": true
+        "summarytext": "Summary text!"
     }
 }}
-{{#hasmenu}}
-<div class="section_action_menu bulk-hidden ms-auto" data-sectionid="{{id}}" data-region="sectionactionsmmenu">
-    {{{menu}}}
-</div>
-{{/hasmenu}}
+{{#summarytext}}
+    <div class="summarytext">
+        {{{summarytext}}}
+    </div>
+{{/summarytext}}
