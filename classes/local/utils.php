@@ -982,22 +982,54 @@ class utils {
 
     public static function subpage_navbar() {
         global $PAGE, $OUTPUT, $COURSE;
-        $items = $PAGE->navbar->get_items();
+        //$items = $PAGE->navbar->get_items();
         $course_items = [];
 
-        //Split the navbar array at coursehome
-        foreach ($items as $item) {
-            if ($item->key === $COURSE->id) {
-                $course_items = array_splice($items, intval(array_search($item, $items)));
-            }
-        }
-        $course_items[0]->text = $COURSE->fullname;
+       
 
+        $item = new \stdClass();
+        $item->text = $COURSE->fullname;
+        $item->has_action = true;
+        $item->action = new moodle_url('/course/view.php', array('id' => $COURSE->id));
+        $item->url = $item->action->out(false);
+        $item->is_last = true;
+        $item->get_content = $COURSE->fullname;
+        $item->classes = ['course-title'];
+        $item->type = 'link';
+
+        $course_items[] = $item;
+
+        /*
+        $pageinfo = [
+            'title' => $PAGE->title,
+            'url' => $PAGE->url,
+            'context' => $PAGE->context,
+            'section' => optional_param('section', 0, PARAM_INT),
+            'courseid' => $COURSE->id
+        ];
+        var_dump($pageinfo);
+*/
+        $string = $PAGE->title;
+        $parts = explode(":", $string);
+        $title = trim(explode("|", $parts[1])[0]);
+
+        // Create current page item
+        $pageItem = new \stdClass();
+        $pageItem->text = $title; // Der extrahierte Titel
+        $pageItem->has_action = false; // Kein Link für die aktuelle Seite
+        $pageItem->is_last = true;
+        $pageItem->get_content = $title;
+        $pageItem->classes = ['section-title'];
+
+        $course_items[] = $pageItem;
+
+
+        /*
         //$course_items[0]->add_class('course-title');
         $last_node = $course_items[array_key_last($course_items)];
         $last_node->action = null;
         $last_node->shorttext = $last_node->text;
-
+*/
 
         //Provide custom templatecontext for the new Navbar
         $templatecontext = array(
