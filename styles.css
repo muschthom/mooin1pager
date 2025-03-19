@@ -42,3 +42,7 @@
 .course-section .section-item{
     border-radius: 0.25rem !important;
 }
+
+#mooin-sections {
+    margin-top: 2rem !important;  
+}
