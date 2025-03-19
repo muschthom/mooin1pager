@@ -32,6 +32,13 @@ Example context (json):
                 {{> format_mooin1pager/local/content/frontpage/tabletTiles }}
                 {{> format_mooin1pager/local/content/frontpage/mobileTiles }}
                 {{! format_mooin1pager/local/content/frontpage/coursetable }}
+                 {{#initialsection}}
+                {{#editing}}
+                    {{$ core_courseformat/local/content/section }}
+                        {{> format_mooin1pager/local/content/frontpage/section0 }}
+                    {{/ core_courseformat/local/content/section }}
+                {{/editing}}
+                {{/initialsection}}
                 {{#sections}}
                     {{> format_mooin1pager/local/content/section }}
                 {{/sections}}

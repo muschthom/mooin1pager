@@ -45,6 +45,12 @@ class section extends section_base {
 
         $data = parent::export_for_template($output);
 
+        if ($this->section->section == 0) {
+            // Spezielle Behandlung für Section 0
+            $data->isHidden = true;
+            $data->hiddenMessage = get_string('youareeditingsectioninfo', 'format_mooin1pager');
+        }
+
         if (!$this->format->get_sectionnum() && !$this->section->is_delegated()) {
             $addsectionclass = $format->get_output_classname('content\\addsection');
             $addsection = new $addsectionclass($format);

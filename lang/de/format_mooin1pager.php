@@ -36,7 +36,7 @@ $string['indentation'] = 'Allow indentation on course page';
 $string['indentation_help'] = 'Allow teachers, and other users with the manage activities capability, to indent items on the course page.';
 $string['section_highlight_feedback'] = 'Section {$a->name} highlighted.';
 $string['section_unhighlight_feedback'] = 'Highlighting removed from section {$a->name}.';
-$string['section0name'] = 'Allgemein';
+$string['section0name'] = 'Section 0';
 $string['sectionname'] = 'Abschnitt';
 $string['showfromothers'] = 'Abschnitt anzeigen';
 

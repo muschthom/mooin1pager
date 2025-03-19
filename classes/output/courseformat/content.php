@@ -68,14 +68,38 @@ class content extends content_base {
 
         $format = $this->format;
         $coursefrontpage = $this->coursefrontpage;
+        $singlesection = $this->format->get_sectionnum();
 
+        //$sections = $this->export_sections($output);
+
+        $parentdata = parent::export_for_template($output);
+
+        if (!empty($parentdata->sections)) {
+            $sections = $parentdata->sections;
+        }
+        $initialsection = '';
         $data = (object)[
             'title' => $format->page_title(),
+            'initialsection' => $initialsection,
+            'sections' => $sections,
             'format' => $format->get_format(),
             'frontpage' => $coursefrontpage->export_for_template($output),
         ];
+        if (is_null($singlesection)) {
+            // Most formats uses section 0 as a separate section so we handle it as additional section.  
+            $initialsection = array_shift($data->sections);
 
+            $data = (object)[
+                'title' => $format->page_title(), // This method should be in the course_format class.
+                'initialsection' => $initialsection,
+                'sections' => $data->sections,
+                'format' => $format->get_format(),
+                'frontpage' => $coursefrontpage->export_for_template($output),
+            ];
 
+            //var_dump($output);
+        }
+        /*
         // Standard Topics Datenstruktur abrufen.
         $parentdata = parent::export_for_template($output);
 
@@ -83,6 +107,7 @@ class content extends content_base {
         if (!empty($parentdata->sections)) {
             $data->sections = $parentdata->sections;
         }
+            */
 
         /*
         echo "<br>----------Parentdata-------------<br/>";
@@ -93,6 +118,6 @@ class content extends content_base {
         $PAGE->requires->js_call_amd('format_mooin1pager/mutations', 'init');
         $PAGE->requires->js_call_amd('format_mooin1pager/section', 'init');
 
-        return $data; 
+        return $data;
     }
 }
