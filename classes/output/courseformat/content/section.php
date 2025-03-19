@@ -54,4 +54,9 @@ class section extends section_base {
 
         return $data;
     }
+
+    
+    public function get_template_name(\renderer_base $renderer): string {
+        return 'format_mooin1pager/local/content/section';
+    }
 }

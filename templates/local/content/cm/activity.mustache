@@ -57,13 +57,12 @@
     }
 }}
 {{#moveicon}} {{{moveicon}}} {{/moveicon}}
-
 {{#hvpcontent}}
-<div class="activity-basis d-flex align-items-center">
+<div class="activity-basis d-flex align-items-center myclass">
 {{/hvpcontent}}
 
 {{^hvpcontent}}
-<div class="activity-grid {{^hasname}}noname-grid{{/hasname}}">
+<div class="activity-grid {{^hasname}}noname-grid{{/hasname}} myclass">
 {{/hvpcontent}}
         {{^hasname}}
             {{$ core_courseformat/local/content/cm/badges }}
