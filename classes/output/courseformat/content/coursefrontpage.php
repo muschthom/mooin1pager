@@ -85,6 +85,14 @@ class coursefrontpage implements renderable {
             'unenrolurl' => utils::get_unenrol_url($course->id),
         ];
 
+        require_once(__DIR__ . '/../../../../lib.php');
+        $courseid = $course->id;
+        if (get_toggle_newssection_visibility($courseid) === 1) {
+            $data->newssection_visibility = true; 
+        }
+        else {
+           $data->newssection_visibility = false; 
+        }
         $coursecontext = context_course::instance($course->id);
         if (has_capability('moodle/course:update', $coursecontext)) {
             $data->has_capability = true;
