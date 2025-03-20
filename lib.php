@@ -267,6 +267,10 @@ class format_mooin1pager extends core_courseformat\base {
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
+                'toggle_progressbar_visibility' => [
+                    'default' => 1,  // Standardwert (0 = nicht ausgewählt)
+                    'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
+                ],
                 'toggle_badge_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
@@ -308,6 +312,12 @@ class format_mooin1pager extends core_courseformat\base {
                     'label' => new lang_string('toggle_newssection_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
                     'help' => 'toggle_newssection_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+                'toggle_progressbar_visibility' => [
+                    'label' => new lang_string('toggle_progressbar_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_progressbar_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
                 'toggle_badge_visibility' => [
@@ -564,5 +574,17 @@ function get_toggle_newssection_visibility($courseid) {
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
         return $courseformatoptions['toggle_newssection_visibility']['default'];
+    }
+}
+
+function get_toggle_progressbar_visibility($courseid) {
+    $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
+    $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
+    // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
+    if (isset($formatoptions['toggle_progressbar_visibility'])) {
+        return $formatoptions['toggle_progressbar_visibility'];
+    } else {
+        $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
+        return $courseformatoptions['toggle_progressbar_visibility']['default'];
     }
 }

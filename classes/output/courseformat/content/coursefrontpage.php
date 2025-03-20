@@ -87,12 +87,22 @@ class coursefrontpage implements renderable {
 
         require_once(__DIR__ . '/../../../../lib.php');
         $courseid = $course->id;
+
+        //handle data for course element visibility
         if (get_toggle_newssection_visibility($courseid) === 1) {
             $data->newssection_visibility = true; 
         }
         else {
            $data->newssection_visibility = false; 
         }
+
+        if (get_toggle_progressbar_visibility($courseid) === 1) {
+            $data->progressbar_visibility = true; 
+        }
+        else {
+            $data->progressbar_visibility = false; 
+        }
+
         $coursecontext = context_course::instance($course->id);
         if (has_capability('moodle/course:update', $coursecontext)) {
             $data->has_capability = true;

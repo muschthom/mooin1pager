@@ -221,6 +221,9 @@ $string['toggle_courseindex_visibility_help'] = 'Wenn aktiviert, wird der Kursin
 $string['toggle_newssection_visibility'] = 'News-Bereich anzeigen';
 $string['toggle_newssection_visibility_help'] = 'Wenn aktiviert, wird der Newsbereich mit einem Preview des neuesten Newsbeitrags angezeigt.';
 
+$string['toggle_progressbar_visibility'] = 'Progressbar anzeigen';
+$string['toggle_progressbar_visibility_help'] = 'Wenn aktiviert, wird der Progressbar angezeigt.';
+
 $string['toggle_badge_visibility'] = 'Badge-Kachel anzeigen';
 $string['toggle_badge_visibility_help'] = 'Wenn aktiviert, wird die Badge-Kachel im Kurs angezeigt.';
 

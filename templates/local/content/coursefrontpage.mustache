@@ -22,13 +22,15 @@ Example context (json):
             {{/header}}
             <div class="mobile-bg">
                 {{#news_section}}
-                {{#newssection_visibility}}
-                    {{> format_mooin1pager/local/content/frontpage/news_section }}
-                {{/newssection_visibility}}         
+                    {{#newssection_visibility}}
+                        {{> format_mooin1pager/local/content/frontpage/news_section }}
+                    {{/newssection_visibility}}         
                 {{/news_section}}
                 
                 {{#courseprogress}}
-                    {{> format_mooin1pager/local/content/frontpage/courseprogress }}
+                    {{#progressbar_visibility}}
+                        {{> format_mooin1pager/local/content/frontpage/courseprogress }}
+                    {{/progressbar_visibility}}
                 {{/courseprogress}}
                 <div class="seperator"></div>
                 {{> format_mooin1pager/local/content/frontpage/tabletTiles }}
