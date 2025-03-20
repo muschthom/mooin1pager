@@ -47,7 +47,13 @@ class format_mooin1pager extends core_courseformat\base {
     }
 
     public function uses_course_index() {
-        return true;
+        $course = $this->get_course();
+        $courseid = $course->id;
+        if (get_toggle_courseindex_visibility($courseid) === 1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function uses_indentation(): bool {
@@ -247,33 +253,12 @@ class format_mooin1pager extends core_courseformat\base {
         static $courseformatoptions = false;
         if ($courseformatoptions === false) {
             $courseconfig = get_config('moodlecourse');
+
             $courseformatoptions = [
                 'hiddensections' => [
                     'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
                 ],
-                'coursedisplay' => [
-                    'default' => $courseconfig->coursedisplay,
-                    'type' => PARAM_INT,
-                ],
-            ];
-        }
-        if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
-            $courseformatoptionsedit = [
-                'hiddensections' => [
-                    'label' => new lang_string('hiddensections'),
-                    'help' => 'hiddensections',
-                    'help_component' => 'moodle',
-                    'element_type' => 'select',
-                    'element_attributes' => [
-                        [
-                            0 => new lang_string('hiddensectionscollapsed'),
-                            1 => new lang_string('hiddensectionsinvisible')
-                        ],
-                    ],
-                ],
-            ];
-            $courseformatoptions = [
                 'toggle_courseindex_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
@@ -299,53 +284,61 @@ class format_mooin1pager extends core_courseformat\base {
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
             ];
-            if ($foreditform) {
-
-                if (!isset($courseformatoptions['toggle_section_number_visibility']['label'])) {
-                    $courseformatoptionsedit = [
-                        'toggle_courseindex_visibility' => [
-                            'label' => new lang_string('toggle_courseindex_visibility', 'format_mooin1pager'),
-                            'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                            'help' => 'toggle_courseindex_visibility',
-                            'help_component' => 'format_mooin1pager',
-                        ],
-                        'toggle_newssection_visibility' => [
-                            'label' => new lang_string('toggle_newssection_visibility', 'format_mooin1pager'),
-                            'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                            'help' => 'toggle_newssection_visibility',
-                            'help_component' => 'format_mooin1pager',
-                        ],
-                        'toggle_badge_visibility' => [
-                            'label' => new lang_string('toggle_badge_visibility', 'format_mooin1pager'),
-                            'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                            'help' => 'toggle_badge_visibility',
-                            'help_component' => 'format_mooin1pager',
-                        ],
-                        'toggle_certificate_visibility' => [
-                            'label' => new lang_string('toggle_certificate_visibility', 'format_mooin1pager'),
-                            'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                            'help' => 'toggle_certificate_visibility',
-                            'help_component' => 'format_mooin1pager',
-                        ],
-                        'toggle_discussion_visibility' => [
-                            'label' => new lang_string('toggle_discussion_visibility', 'format_mooin1pager'),
-                            'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                            'help' => 'toggle_discussion_visibility',
-                            'help_component' => 'format_mooin1pager',
-                        ],
-                        'toggle_userlist_visibility' => [
-                            'label' => new lang_string('toggle_userlist_visibility', 'format_mooin1pager'),
-                            'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                            'help' => 'toggle_userlist_visibility',
-                            'help_component' => 'format_mooin1pager',
-                        ],
-                    ];
-
-                    $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
-                }
-            }
-            return $courseformatoptions;
         }
+
+        if ($foreditform) {
+            $courseformatoptionsedit = [
+                'hiddensections' => [
+                    'label' => new lang_string('hiddensections'),
+                    'help' => 'hiddensections',
+                    'help_component' => 'moodle',
+                    'element_type' => 'select',
+                    'element_attributes' => [[
+                        0 => new lang_string('hiddensectionscollapsed'),
+                        1 => new lang_string('hiddensectionsinvisible')
+                    ]],
+                ],
+                'toggle_courseindex_visibility' => [
+                    'label' => new lang_string('toggle_courseindex_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_courseindex_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+                'toggle_newssection_visibility' => [
+                    'label' => new lang_string('toggle_newssection_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_newssection_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+                'toggle_badge_visibility' => [
+                    'label' => new lang_string('toggle_badge_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_badge_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+                'toggle_certificate_visibility' => [
+                    'label' => new lang_string('toggle_certificate_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_certificate_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+                'toggle_discussion_visibility' => [
+                    'label' => new lang_string('toggle_discussion_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_discussion_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+                'toggle_userlist_visibility' => [
+                    'label' => new lang_string('toggle_userlist_visibility', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_userlist_visibility',
+                    'help_component' => 'format_mooin1pager',
+                ],
+            ];
+
+            $courseformatoptions = array_merge_recursive($courseformatoptions, $courseformatoptionsedit);
+        }
+        return $courseformatoptions;
     }
 
     /**
@@ -548,4 +541,16 @@ function format_mooin1pager_pluginfile($course, $cm, $context, $filearea, $args,
 
     // Finally send the file - in this case with a cache lifetime of 0 seconds and no filtering.
     send_stored_file($file, 0, 0, $forcedownload, $options);
+}
+
+function get_toggle_courseindex_visibility($courseid) {
+    $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
+    $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
+    // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
+    if (isset($formatoptions['toggle_courseindex_visibility'])) {
+        return $formatoptions['toggle_courseindex_visibility'];
+    } else {
+        $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
+        return $courseformatoptions['toggle_courseindex_visibility']['default'];
+    }
 }
