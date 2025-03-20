@@ -213,7 +213,7 @@ $string['toggle_courseindex_visibility'] = 'Show Course Index';
 $string['toggle_courseindex_visibility_help'] = 'When activated, the course index is displayed in the course.';
 
 $string['toggle_newssection_visibility'] = 'Show News Section with Post-Preview';
-$string['toggle_newssection_visibility'] = 'When activated, the news section with preview of the last post is displayed in the course.';
+$string['toggle_newssection_visibility_help'] = 'When activated, the news section with preview of the last post is displayed in the course.';
 
 $string['toggle_progressbar_visibility'] = 'Show Progressbar';
 $string['toggle_progressbar_visibility_help'] = 'When activated, the progress bar is displayed in the course.';
