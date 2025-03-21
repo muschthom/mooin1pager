@@ -19,10 +19,11 @@
     <div class="seperator m-0 mb-4"></div>
 
 
-
+    {{#community_visibility}}
     <h2>{{#str}} community, format_mooin1pager {{/str}}</h2>
     <div class="d-flex badges-certificates-mobile mb-4">
     {{#discussions}}
+    {{#discussion_visibility}}
         <a href="{{{all_discussions_url}}}" class="mooin1pager-btn">
             <span class="chat-icon pr-2 position-relative">
                 <i class="bi bi-chat-left"></i>
@@ -34,15 +35,18 @@
             
             {{#str}} forums, format_mooin1pager{{/str}}
         </a>
-        
+    {{/discussion_visibility}}
     {{/discussions}}
     
     {{#participants}}
+    {{#userlist_visibility}}
         <a href="{{{participantsUrl}}}" class="mooin1pager-btn">
             <i class="bi bi-people-fill mr-1"></i>
             {{#str}} participants, format_mooin1pager{{/str}}
         </a>
+    {{/userlist_visibility}}
     {{/participants}}
     </div>
     <div class="seperator m-0"></div>
+    {{/community_visibility}}
 </div>

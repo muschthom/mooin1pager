@@ -2,6 +2,9 @@
     .course-section {
         margin: 1.5rem 1.875rem;
     }
+    #mooin-sections {
+        margin-top: 2rem !important;  
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -41,10 +44,6 @@
 
 .course-section .section-item{
     border-radius: 0.25rem !important;
-}
-
-#mooin-sections {
-    margin-top: 2rem !important;  
 }
 
 .hide-block {
