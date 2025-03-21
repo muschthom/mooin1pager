@@ -107,6 +107,7 @@
             {{/previewPost}}
         {{/discussions}}
         {{#participants}}
+        {{#userlist_visibility}}
             <div class="participants-container d-flex flex-column">
                 {{#has_capability}}
                     {{#userCardList}}
@@ -167,6 +168,7 @@
                     {{/userCardList}}
                 {{/has_capability}}
             </div>
+        {{/userlist_visibility}}
         {{/participants}}
     </div>
 </div>

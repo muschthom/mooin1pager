@@ -601,14 +601,14 @@ function get_toggle_discussion_visibility($courseid) {
     }
 }
 
-
-/*
-'toggle_discussion_visibility' => [
-                    'default' => 1,  // Standardwert (0 = nicht ausgewählt)
-                    'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
-                ],
-                'toggle_userlist_visibility' => [
-                    'default' => 1,  // Standardwert (0 = nicht ausgewählt)
-                    'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
-                ],
-                */
+function get_toggle_userlist_visibility($courseid) {
+    $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
+    $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
+    // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
+    if (isset($formatoptions['toggle_userlist_visibility'])) {
+        return $formatoptions['toggle_userlist_visibility'];
+    } else {
+        $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
+        return $courseformatoptions['toggle_userlist_visibility']['default'];
+    }
+}

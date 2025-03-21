@@ -110,6 +110,15 @@ class coursefrontpage implements renderable {
             $data->discussion_visibility = false; 
         }
 
+        if (get_toggle_userlist_visibility($courseid) === 1) {
+            $data->userlist_visibility = true; 
+        }
+        else {
+            $data->userlist_visibility = false; 
+        }
+
+        
+
         $coursecontext = context_course::instance($course->id);
         if (has_capability('moodle/course:update', $coursecontext)) {
             $data->has_capability = true;
