@@ -14,7 +14,8 @@
 {{/community_visibility}}
 {{^community_visibility}}
     <div class="coursefrontpage__community flex-column hide-block">
-{{/community_visibility}}    <span class="d-flex">
+{{/community_visibility}}    
+    <span class="d-flex">
         <h2>{{#str}} community, format_mooin1pager {{/str}}</h2>
         {{#has_capability}}
             <button type="button" class="btn info-tip p-0 ml-auto d-none d-lg-block" data-toggle="tooltip" data-placement="top"
@@ -113,7 +114,6 @@
         {{#participants}}
         {{#userlist_visibility}}
             <div class="participants-container d-flex flex-column">
-                {{#has_capability}}
                     {{#userCardList}}
                         <span>
                             <i class="bi bi-people-fill"></i>
@@ -146,31 +146,6 @@
                                 <a href="{{{participantsUrl}}}">{{#str}} show_all_infos, format_mooin1pager {{/str}}</a>
                             </div>
                     {{/userCardList}}
-                {{/has_capability}}
-                {{^has_capability}}
-                    {{#userCardList}}
-                        <span>
-                            <i class="bi bi-people-fill"></i>
-                            <span class="caption">
-                                {{#str}} user_card_title, format_mooin1pager {{/str}} 
-                            </span>
-                        </span>
-                        <div class="no-participantscap-container">
-                            <div class="no-participantscap-img"></div>
-                            <span class="blue-info-text">
-                                    {{{user_count}}} 
-                                    {{^singleuser}}
-                                        {{#str}} user, format_mooin1pager {{/str}}
-                                        {{#str}} in_course, format_mooin1pager {{/str}}
-                                    {{/singleuser}}
-                                    {{#singleuser}}
-                                        {{#str}} singleuser, format_mooin1pager {{/str}}
-                                        {{#str}} in_course_sgl, format_mooin1pager {{/str}}
-                                    {{/singleuser}}
-                            </span>
-                        </div>
-                    {{/userCardList}}
-                {{/has_capability}}
             </div>
         {{/userlist_visibility}}
         {{/participants}}
