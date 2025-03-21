@@ -9,8 +9,12 @@
     }
 }}
 
-<div class="coursefrontpage__community d-flex flex-column">
-    <span class="d-flex">
+{{#community_visibility}}
+    <div class="coursefrontpage__community d-flex flex-column">
+{{/community_visibility}}
+{{^community_visibility}}
+    <div class="coursefrontpage__community flex-column hide-block">
+{{/community_visibility}}    <span class="d-flex">
         <h2>{{#str}} community, format_mooin1pager {{/str}}</h2>
         {{#has_capability}}
             <button type="button" class="btn info-tip p-0 ml-auto d-none d-lg-block" data-toggle="tooltip" data-placement="top"

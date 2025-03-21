@@ -117,6 +117,14 @@ class coursefrontpage implements renderable {
             $data->userlist_visibility = false; 
         }
 
+        if (
+            get_toggle_discussion_visibility($courseid) === 0
+            && get_toggle_userlist_visibility($courseid) === 0
+        ) {
+            $data->community_visibility = false;
+        } else {
+            $data->community_visibility = true;
+        }
         
 
         $coursecontext = context_course::instance($course->id);
