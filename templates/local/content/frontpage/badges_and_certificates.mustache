@@ -14,6 +14,7 @@
     
     <div class="tiles-wrapper">
         {{#badges}}
+        {{#badge_visibility}}
         <div class="badges-container d-flex flex-column">
             <div class="d-flex align-items-center">
                 <i class="bi bi-trophy-fill mr-1"></i>
@@ -40,6 +41,7 @@
                 <a href="{{{badgesUrl}}}" class="ml-auto">{{#str}} show_all_infos, format_mooin1pager{{/str}}</a>
             </div>
         </div>
+        {{/badge_visibility}}
         {{/badges}}
         
 

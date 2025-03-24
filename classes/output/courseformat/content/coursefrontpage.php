@@ -125,6 +125,13 @@ class coursefrontpage implements renderable {
         } else {
             $data->community_visibility = true;
         }
+
+        if (get_toggle_badge_visibility($courseid) === 1) {
+            $data->badge_visibility = true; 
+        }
+        else {
+            $data->badge_visibility = false; 
+        }
         
 
         $coursecontext = context_course::instance($course->id);
