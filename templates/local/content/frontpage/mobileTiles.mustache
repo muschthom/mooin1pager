@@ -1,23 +1,34 @@
-
-
 <div class="mobile-tiles d-flex d-sm-none flex-column">
-    <h2>{{#str}} badges_certificates, format_mooin1pager {{/str}}</h2>
+{{^badge_cert_hide}}
+    {{^certificate_visibility}}
+        <h2>{{#str}} only_badges, format_mooin1pager {{/str}}</h2>
+    {{/certificate_visibility}}
+    {{^badge_visibility}}
+        <h2>{{#str}} only_certificates, format_mooin1pager {{/str}}</h2>
+    {{/badge_visibility}}
+    {{#badge_cert_visibility}}
+        <h2>{{#str}} badges_certificates, format_mooin1pager {{/str}}</h2>
+    {{/badge_cert_visibility}}
     <div class="d-flex badges-certificates-mobile mb-4">
     {{#badges}}
+    {{#badge_visibility}}
         <a href="{{{badgesUrl}}}" class="mooin1pager-btn">
             <i class="bi bi-trophy-fill mr-1"></i>
             {{#str}} course_badges, format_mooin1pager{{/str}}
         </a>
+    {{/badge_visibility}}
     {{/badges}}
     {{#certificates}}
+    {{#certificate_visibility}}
         <a href="{{{certificatesUrl}}}" class="mooin1pager-btn">
             <i class="bi bi-award-fill mr-1"></i>
             {{#str}} my_certificate, format_mooin1pager{{/str}}
         </a>
+    {{/certificate_visibility}}
     {{/certificates}}
     </div>
     <div class="seperator m-0 mb-4"></div>
-
+    {{/badge_cert_hide}}
 
     {{#community_visibility}}
     <h2>{{#str}} community, format_mooin1pager {{/str}}</h2>

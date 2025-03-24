@@ -57,7 +57,9 @@ Example context (json):
             
         </div>
         <div class="coursefrontpage__side d-none d-lg-flex">
+        {{^badge_cert_hide}}
             {{> format_mooin1pager/local/content/frontpage/badges_and_certificates }}
+        {{/badge_cert_hide}}
             {{> format_mooin1pager/local/content/frontpage/community }}
         </div> 
     </div>

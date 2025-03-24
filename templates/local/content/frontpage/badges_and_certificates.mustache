@@ -9,9 +9,17 @@
     }
 }}
 
+
 <div class="coursefrontpage__badges-certificates">
-    <h2>{{#str}} badges_certificates, format_mooin1pager {{/str}}</h2>
-    
+    {{^certificate_visibility}}
+        <h2>{{#str}} only_badges, format_mooin1pager {{/str}}</h2>
+    {{/certificate_visibility}}
+    {{^badge_visibility}}
+        <h2>{{#str}} only_certificates, format_mooin1pager {{/str}}</h2>
+    {{/badge_visibility}}
+    {{#badge_cert_visibility}}
+        <h2>{{#str}} badges_certificates, format_mooin1pager {{/str}}</h2>
+    {{/badge_cert_visibility}}    
     <div class="tiles-wrapper">
         {{#badges}}
         {{#badge_visibility}}
@@ -46,6 +54,7 @@
         
 
         {{#certificates}}
+        {{#certificate_visibility}}
         <div class="certificates-container">
             <div class="d-flex align-items-center">
                 <i class="bi bi-award-fill"></i>
@@ -75,6 +84,7 @@
                 <a href="{{{certificatesUrl}}}" class="ml-auto">{{#str}} show_all_infos, format_mooin1pager{{/str}}</a>
             </div>
         </div>
+        {{/certificate_visibility}}
         {{/certificates}}
     </div>
 </div>
