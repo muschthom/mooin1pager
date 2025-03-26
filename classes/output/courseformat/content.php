@@ -115,6 +115,11 @@ class content extends content_base {
         echo "<br>----------data-------------<br/>";
         echo json_encode($data);
 */
+
+        if ($this->hasaddsection) {
+            $addsection = new $this->addsectionclass($format);
+            $data->numsections = $addsection->export_for_template($output);
+        }
         $PAGE->requires->js_call_amd('format_mooin1pager/mutations', 'init');
         $PAGE->requires->js_call_amd('format_mooin1pager/section', 'init');
 
