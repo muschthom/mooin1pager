@@ -1,0 +1,22 @@
+define(['jquery'],
+    function ($) {
+        return {
+            init: function () {
+                $(document).ready(function () {
+                    console.log("replaceBreadcrumbLink");
+                    let items = document.querySelectorAll(".breadcrumb-item");
+                    if (items.length >= 2) {
+                        let link = items[1].querySelector("a");
+                        if (link) {
+                            let span = document.createElement("span");
+                            span.textContent = link.textContent;
+                            span.style.cursor = "default";
+                            link.parentNode.replaceChild(span, link);
+                        }
+                    }
+                });
+
+            }
+        }
+    }
+);

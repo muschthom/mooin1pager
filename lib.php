@@ -203,6 +203,7 @@ class format_mooin1pager extends core_courseformat\base {
                 $generalsection->remove();
             }
         }
+        $PAGE->requires->js_call_amd('format_mooin1pager/custom', 'init');
     }
 
     /**
