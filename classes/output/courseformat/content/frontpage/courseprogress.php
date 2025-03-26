@@ -40,8 +40,8 @@ class courseprogress implements renderable {
     public function export_for_template(\renderer_base $output) {
         global $USER;
         $course = $this->format->get_course();
-        //$courseprogress = utils::get_course_progress($course->id, $USER->id);
-        $courseprogress = 100; 
+        $courseprogress = utils::get_course_progress($course->id, $USER->id);
+        //$courseprogress = 100; 
 
         $data = (object)[
             'is_course_started' => utils::is_course_started($course),

@@ -9,6 +9,7 @@ use context_system;
 use stdClass;
 use context_user;
 use core_badges_renderer;
+use format_mooin1pager\output\courseformat\content\section;
 use xmldb_table;
 
 defined('MOODLE_INTERNAL') || die();
@@ -36,32 +37,69 @@ class utils {
         return $is_course_completed;
     }
 
-    /*
+
     public static function get_course_progress($courseid, $userid) {
         global $DB;
-
+        $activities = [];
         $percentage = 0;
         $i = 0;
         if ($sections = $DB->get_records('course_sections', array('course' => $courseid))) {
             foreach ($sections as $section) {
+                $sectionid = $section->id;
                 if (
-                    !$DB->get_record('format_mooin1pager_chapter', array('sectionid' => $section->id)) &&
                     $section->section != 0
                 ) {
-                    $i++;
-                    $percentage += self::get_section_progress($courseid, $section->id, $userid);
+                    $coursemodules = $DB->get_records('course_modules', array(
+                        'course' => $courseid,
+                        'deletioninprogress' => 0,
+                        'section' => $sectionid
+                    ));
+                    foreach ($coursemodules as $coursemodule) {
+                        if ($coursemodule->completion == 2) {
+                            $activities[] = $coursemodule;
+
+                            $modulename = '';
+                            if ($module = $DB->get_record('modules', array('id' => $coursemodule->module))) {
+                                $modulename = $module->name;
+                            }
+
+                            // activity is hvp, we use the grades to get the individual progress
+                            if ($modulename == 'hvp') {
+                                $grading_info = grade_get_grades($courseid, 'mod', 'hvp', $coursemodule->instance, $userid);
+                                $grade = $grading_info->items[0]->grades[$userid]->grade;
+                                $grademax = $grading_info->items[0]->grademax;
+                                if (isset($grade) && $grade != 0) {
+                                    $percentage += 100 / ($grademax / $grade);
+                                }
+                            } else {
+                                // if completed, add to percentage
+                                $sql = 'SELECT *
+                              FROM {course_modules_completion}
+                             WHERE coursemoduleid = :coursemoduleid
+                               AND userid = :userid
+                               AND completionstate != 0 ';
+                                $params = array(
+                                    'coursemoduleid' => $coursemodule->id,
+                                    'userid' => $userid
+                                );
+                                if ($DB->get_record_sql($sql, $params)) {
+                                    $percentage += 100;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
 
         if ($percentage > 0) {
-            $percentage = $percentage / $i;
+            $percentage = $percentage / count($activities);
         }
 
         return round($percentage);
     }
 
-*/
+
     public static function setgrade($contextid, $score, $maxscore) {
         global $DB, $USER, $CFG;
         require_once($CFG->dirroot . '/mod/hvp/lib.php');
@@ -376,7 +414,7 @@ class utils {
                 //'new_news' => $new_news
             ];
             return $templatecontext;
-        } 
+        }
     }
 
     public static function count_unread_posts($userid, $courseid, $news = false, $forumid = 0) {
@@ -437,7 +475,7 @@ class utils {
     public static function get_last_forum_discussion($courseid, $forum_type) {
         global $DB, $OUTPUT, $USER;
 
-    
+
         $sql = "SELECT fp.*, f.id as forumid, fd.groupid, fd.id as discussionid, cm.id as cmid
                 FROM {forum_posts} as fp
                 JOIN {forum_discussions} as fd ON fp.discussion = fd.id
@@ -448,7 +486,7 @@ class utils {
                 AND f.type != :news
                 AND cm.module = (SELECT id FROM {modules} WHERE name = 'forum')
                 ORDER BY fp.created DESC";
-    
+
         $params = array(
             'courseid' => $courseid,
             'news' => 'news',
@@ -621,7 +659,7 @@ class utils {
         if (isset($SECTIONS[$section->id]) && isset($SECTIONS[$section->id]->prefix)) {
             return $SECTIONS[$section->id]->prefix;
         }
-    
+
         $sectionprefix = '';
 
         // Get parent chapter of the section
@@ -629,7 +667,7 @@ class utils {
         if (is_object($parentchapter)) {
             // Get section ids for the chapter
             $sids = $parentchapter->sectionids;
-    
+
             // Get the course and format
             $course = get_course($section->course);
             $format = course_get_format($course);
@@ -672,7 +710,7 @@ class utils {
         if (isset($SECTIONS[$section->id])) {
             $SECTIONS[$section->id]->prefix = $sectionprefix;
         }
-    
+
         return $sectionprefix;
     }
 
@@ -752,13 +790,12 @@ class utils {
                 return $CHAPTERS[$SECTIONS[$section->id]->parentchapterid];
             }
         }
-    
+
         $chapters = $DB->get_records('format_mooin1pager_chapter', array('courseid' => $section->course));
-        foreach ($chapters as $chapter) {            
+        foreach ($chapters as $chapter) {
             if (isset($CHAPTERS[$chapter->id]) && isset($CHAPTERS[$chapter->id]->sectionids)) {
                 $sids = $CHAPTERS[$chapter->id]->sectionids;
-            }
-            else {
+            } else {
                 $sids = self::get_sectionids_for_chapter($chapter->id);
             }
             if (in_array($section->id, $sids)) {
@@ -775,7 +812,7 @@ class utils {
 
     public static function get_sectionids_for_chapter($chapterid) {
 
-        global $DB;      
+        global $DB;
         $sectionids = array();
         if ($chapter = $DB->get_record('format_mooin1pager_chapter', array('id' => $chapterid))) {
 
@@ -797,9 +834,7 @@ class utils {
                                 AND cs.section < :nextchaptersection;';
                         $params = array('courseid' => $chapter->courseid, 'chaptersection' => $chaptersection->section, 'nextchaptersection' => $nextchaptersection->section);
                     }
-
-                }   
-                else {
+                } else {
                     $sql = 'SELECT cs.id 
                             FROM {course_sections} cs
                             WHERE cs.course = :courseid
@@ -910,7 +945,7 @@ class utils {
             // But from lib.php function update_course_format_options sections without parents are not allowed
             $parentchapter = self::get_parent_chapter($section);
             // Added  tinjohn.
-            if(!$parentchapter) {
+            if (!$parentchapter) {
                 return false;
             }
             $sectionids = self::get_sectionids_for_chapter($parentchapter->id);
@@ -946,33 +981,32 @@ class utils {
     public static function course_navbar() {
         global $PAGE, $OUTPUT, $COURSE;
 
-         $items = $PAGE->navbar->get_items();
+        $items = $PAGE->navbar->get_items();
 
-         if(!$items) {
+        if (!$items) {
             $message = "no breadcrumb for section 0 for testing ";
             \core\notification::warning($message);
             return;
-         }
-         $course_items = [];
-    
+        }
+        $course_items = [];
+
         //Split the navbar array at coursehome
         foreach ($items as $item) {
             if ($item->key === $COURSE->id) {
                 $course_items = array_splice($items, intval(array_search($item, $items)));
             }
-
-         }
+        }
         // Mod for check tinjohn.
         $course_items[0]->add_class('course-title');
         $course_items[0]->text = $COURSE->fullname;
-         $section_node = $course_items[array_key_last($course_items)];
-         $section_node->action = null;
-         $text = $section_node->text;
-         $parts = explode(':', $text, 2);
-         $result = trim($parts[0]) . ':';
-         $text = $section_node->text = $result;
-    
-         //Provide custom templatecontext for the new Navbar
+        $section_node = $course_items[array_key_last($course_items)];
+        $section_node->action = null;
+        $text = $section_node->text;
+        $parts = explode(':', $text, 2);
+        $result = trim($parts[0]) . ':';
+        $text = $section_node->text = $result;
+
+        //Provide custom templatecontext for the new Navbar
         $templatecontext = array(
             'get_items' => $course_items
         );
@@ -985,7 +1019,7 @@ class utils {
         //$items = $PAGE->navbar->get_items();
         $course_items = [];
 
-       
+
 
         $item = new \stdClass();
         $item->text = $COURSE->fullname;
@@ -1046,11 +1080,10 @@ class utils {
         $chaptercompleted = false;
         $lastvisited = false;
 
-    
+
         if (isset($CHAPTERS[$chapter->id]->sectionids)) {
             $sectionids = $CHAPTERS[$chapter->id]->sectionids;
-        }
-        else {
+        } else {
             $sectionids = self::get_sectionids_for_chapter($chapter->id);
         }
         $completedsections = 0;
@@ -1824,22 +1857,22 @@ class utils {
         }
 
 
-    fclose($socket);
-    $retStr = self::extract_body($content);
-    return $retStr;
-}
+        fclose($socket);
+        $retStr = self::extract_body($content);
+        return $retStr;
+    }
 
     /**
      * removes the headers from a url response
      * @return String body of the returned request
      */
-    static function extract_body($response){
+    static function extract_body($response) {
 
         $crlf = "\r\n";
         // split header and body
         $pos = strpos($response, $crlf . $crlf);
-        if($pos === false){
-            return($response);
+        if ($pos === false) {
+            return ($response);
         }
 
         $header = substr($response, 0, $pos);
@@ -1848,9 +1881,9 @@ class utils {
         $headers = array();
         $lines = explode($crlf, $header);
 
-        foreach($lines as $line){
-            if(($pos = strpos($line, ':')) !== false){
-                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
+        foreach ($lines as $line) {
+            if (($pos = strpos($line, ':')) !== false) {
+                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos + 1));
             }
         }
 
@@ -1873,5 +1906,4 @@ class utils {
             }
         }
     }
-
 }
