@@ -101,21 +101,11 @@
 }}
 <div id="course-index" class="courseindex {{#editmode}} editing {{/editmode}}" role="tree">
     {{#sections}}
-    {{^editmode}}
-        {{#isFirstSectionOfChapter}}
-            <div id="chapter-{{{parentChapter}}}-index" class="collapse {{#containsActiveSection}} show {{/containsActiveSection}} {{#editmode}} show {{/editmode}} chapter-container" data-for="chapter-container" data-id="{{{parentChapter}}}">
-        {{/isFirstSectionOfChapter}}
-    {{/editmode}}
-        {{> format_mooin1pager/local/courseindex/section }}
-        {{^editmode}}
-        {{#isLastSectionOfChapter}}
-            </div>
-        {{/isLastSectionOfChapter}}
-        {{/editmode}}
+    {{> core_courseformat/local/courseindex/section }}
     {{/sections}}
 </div>
 {{#js}}
-require(['format_mooin1pager/local/courseindex/courseindex'], function(component) {
+require(['core_courseformat/local/courseindex/courseindex'], function(component) {
     component.init('course-index');
 });
 {{/js}}
