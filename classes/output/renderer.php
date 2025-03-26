@@ -18,6 +18,10 @@ namespace format_mooin1pager\output;
 
 use core_courseformat\output\section_renderer;
 use moodle_page;
+use core_courseformat\base as course_format;
+use context_course;
+use moodle_url;
+use format_mooin1pager\local\utils as utils;
 
 /**
  * Basic renderer for mooin1pager format.
@@ -62,5 +66,38 @@ class renderer extends section_renderer {
      */
     public function section_title_without_link($section, $course) {
         return $this->render(course_get_format($course)->inplace_editable_render_section_name($section, false));
+    }
+
+
+    /**
+     * Get the course index drawer with placeholder.
+     *
+     * The default course index is loaded after the page is ready. Format plugins can override
+     * this method to provide an alternative course index.
+     *
+     * If the format is not compatible with the course index, this method will return an empty string.
+     *
+     * @param course_format $format the course format
+     * @return String the course index HTML.
+     */
+    public function course_index_drawer(course_format $format): ?String
+    {
+        global $DB;
+
+        if ($format->uses_course_index()) {
+            include_course_editor($format);
+            $course = $format->get_course();
+
+            $overview = new moodle_url('/course/view.php', array('id' => $course->id));
+
+            $data = [
+                'coursename' => $course->shortname,
+                'overview' => ['url' => $overview],
+                'unenrolurl' => utils::get_unenrol_url($course->id),
+
+            ];
+            return $this->render_from_template('format_mooin1pager/local/courseindex/drawer', $data);
+        }
+        return '';
     }
 }
