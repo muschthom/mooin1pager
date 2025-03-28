@@ -91,12 +91,12 @@
                 <span class="sr-only">{{#str}} collapse, core {{/str}}</span>
             </span>
         </a>
-        <a href="{{{sectionurl}}}"
+        <a href="#section-{{number}}"
             class="courseindex-link text-truncate"
             data-action="togglecourseindexsection"
             data-for="section_title"
             tabindex="-1"
-        >
+       >
             {{{title}}}
         </a>
         <span class="current-badge badge bg-primary text-white ms-2 px-2 rounded-pill">
@@ -112,7 +112,7 @@
     >
         <ul class="courseindex-sectioncontent unlist" data-for="cmlist" data-id="{{id}}" role="group">
             {{#cms}}
-            {{> core_courseformat/local/courseindex/cm }}
+            {{> format_mooin1pager/local/courseindex/cm }}
             {{/cms}}
         </ul>
     </div>
