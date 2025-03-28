@@ -22,254 +22,230 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//import Header from "format_mooin1pager/local/content/section/header";
-//import DndSection from "format_mooin1pager/local/courseeditor/dndsection";
-import Templates from "core/templates";
-import ModalFactory from "core/modal_factory";
-//import mooin1pagerModal from "../../mooin1pagermodal";
-import { get_string as getString } from "core/str";
 import ILD from "format_mooin1pager/ildhvp4";
+import Header from 'core_courseformat/local/content/section/header';
+import DndSection from 'core_courseformat/local/courseeditor/dndsection';
+import Templates from 'core/templates';
+import Pending from "core/pending";
 
 export default class extends DndSection {
-  /**
-   * Constructor hook.
-   */
-  create() {
-    // Optional component name for debugging.
-    this.name = "content_section";
-    // Default query selectors.
-    this.selectors = {
-      SECTION_ITEM: `[data-for='section_title']`,
-      CM: `[data-for="cmitem"]`,
-      SECTIONINFO: `[data-for="sectioninfo"]`,
-      SECTIONBADGES: `[data-region="sectionbadges"]`,
-      SHOWSECTION: `[data-action="sectionShow"]`,
-      HIDESECTION: `[data-action="sectionHide"]`,
-      SETCHAPTER: `[data-action="sectionSetChapter"]`,
-      UNSETCHAPTER: `[data-action="sectionUnsetChapter"]`,
-      ACTIONTEXT: `.menu-action-text`,
-      ICON: `.icon`,
-      H5P: `.parent-iframe`,
-    };
-    // Most classes will be loaded later by DndCmItem.
-    this.classes = {
-      LOCKED: "editinprogress",
-      HASDESCRIPTION: "description",
-      HIDE: "d-none",
-      HIDDEN: "hidden",
-      CHAPTER: "chapter",
-    };
 
-    // We need our id to watch specific events.
-    this.id = this.element.dataset.id;
-  }
+    /**
+     * Constructor hook.
+     */
+    create() {
+        // Optional component name for debugging.
+        this.name = 'content_section';
+        // Default query selectors.
+        this.selectors = {
+            ACTIONMENU: '.section-actions',
+            SECTION_ITEM: `[data-for='section_title']`,
+            CM: `[data-for="cmitem"]`,
+            SECTIONINFO: `[data-for="sectioninfo"]`,
+            SECTIONBADGES: `[data-region="sectionbadges"]`,
+            SHOWSECTION: `[data-action="sectionShow"]`,
+            HIDESECTION: `[data-action="sectionHide"]`,
+            ACTIONTEXT: `.menu-action-text`,
+            ICON: `.icon`,
+        };
+        // Most classes will be loaded later by DndCmItem.
+        this.classes = {
+            LOCKED: 'editinprogress',
+            HASDESCRIPTION: 'description',
+            HIDE: 'd-none',
+            HIDDEN: 'hidden',
+            CURRENT: 'current',
+        };
 
-  /**
-   * Initial state ready method.
-   *
-   * @param {Object} state the initial state
-   */
-  stateReady(state) {
-    this.configState(state);
-    // Drag and drop is only available for components compatible course formats.
-    if (this.reactive.isEditing && this.reactive.supportComponents) {
-      // Section zero and other formats sections may not have a title to drag.
-      const sectionItem = this.getElement(this.selectors.SECTION_ITEM);
-      if (sectionItem) {
-        // Init the inner dragable element.
-        const headerComponent = new Header({
-          ...this,
-          element: sectionItem,
-          fullregion: this.element,
-        });
-        this.configDragDrop(headerComponent);
-      }
-    }
-    this._showLastSectionModal(state);
-    this._hvpListener();
-  }
-
-  /**
-   * Component watchers.
-   *
-   * @returns {Array} of watchers
-   */
-  getWatchers() {
-    return [
-      { watch: `section[${this.id}]:updated`, handler: this._refreshSection },
-      // {watch: `section[${this.id}].sectionprogress:updated`, handler: this._updateSectionProgress}
-    ];
-  }
-
-  /**
-   * Validate if the drop data can be dropped over the component.
-   *
-   * @param {Object} dropdata the exported drop data.
-   * @returns {boolean}
-   */
-  validateDropData(dropdata) {
-    // If the format uses one section per page sections dropping in the content is ignored.
-    if (dropdata?.type === "section" && this.reactive.sectionReturn != 0) {
-      return false;
-    }
-    return super.validateDropData(dropdata);
-  }
-
-  /**
-   * Get the last CM element of that section.
-   *
-   * @returns {element|null}
-   */
-  getLastCm() {
-    const cms = this.getElements(this.selectors.CM);
-    // DndUpload may add extra elements so :last-child selector cannot be used.
-    if (!cms || cms.length === 0) {
-      return null;
-    }
-    return cms[cms.length - 1];
-  }
-
-  /**
-   * Update a content section using the state information.
-   *
-   * @param {object} param
-   * @param {Object} param.element details the update details.
-   */
-  _refreshSection({ element }) {
-    // Update classes.
-    this.element.classList.toggle(
-      this.classes.DRAGGING,
-      element.dragging ?? false
-    );
-    this.element.classList.toggle(this.classes.LOCKED, element.locked ?? false);
-    this.element.classList.toggle(
-      this.classes.HIDDEN,
-      !element.visible ?? false
-    );
-    this.element.classList.toggle(
-      this.classes.CHAPTER,
-      element.isChapter ?? false
-    );
-    this.locked = element.locked;
-    // The description box classes depends on the section state.
-    const sectioninfo = this.getElement(this.selectors.SECTIONINFO);
-    if (sectioninfo) {
-      sectioninfo.classList.toggle(
-        this.classes.HASDESCRIPTION,
-        element.hasrestrictions
-      );
-    }
-    // Update section badges and menus.
-    this._updateBadges(element);
-    this._updateActionsMenu(element);
-
-    if (this.reactive.isEditing) {
-      //this._reloadSectionNames({ element: element });
-    }
-  }
-
-  async _reloadSectionNames({ element }) {
-    const title = this.getElement(this.selectors.SECTION_ITEM);
-    //window.console.log(element);
-    if (!element.isChapter) {
-      //title.innerHTML = element.parentChapter + "." + element.innerChapterNumber + ": " + element.title;
-      title.innerHTML = element.prefix;
-    }
-  }
-
-  /**
-   * Update a section badges using the state information.
-   *
-   * @param {object} section the section state.
-   */
-  _updateBadges(section) {
-    const current = this.getElement(
-      `${this.selectors.SECTIONBADGES} [data-type='iscurrent']`
-    );
-    current?.classList.toggle(this.classes.HIDE, !section.current);
-
-    const hiddenFromStudents = this.getElement(
-      `${this.selectors.SECTIONBADGES} [data-type='hiddenfromstudents']`
-    );
-    hiddenFromStudents?.classList.toggle(this.classes.HIDE, section.visible);
-  }
-
-  /**
-   * Update a section action menus.
-   *
-   * @param {object} section the section state.
-   */
-  async _updateActionsMenu(section) {
-    let selector;
-    let newAction;
-    if (section.visible) {
-      selector = this.selectors.SHOWSECTION;
-      newAction = "sectionHide";
-    } else {
-      selector = this.selectors.HIDESECTION;
-      newAction = "sectionShow";
+        // We need our id to watch specific events.
+        this.id = this.element.dataset.id;
     }
 
-    if (section.isChapter) {
-      selector = this.selectors.SETCHAPTER;
-      newAction = "sectionUnsetChapter";
-    } else {
-      selector = this.selectors.UNSETCHAPTER;
-      newAction = "sectionSetChapter";
+    /**
+     * Initial state ready method.
+     *
+     * @param {Object} state the initial state
+     */
+    stateReady(state) {
+        this.configState(state);
+        // Drag and drop is only available for components compatible course formats.
+        if (this.reactive.isEditing && this.reactive.supportComponents) {
+            // Section zero and other formats sections may not have a title to drag.
+            const sectionItem = this.getElement(this.selectors.SECTION_ITEM);
+            if (sectionItem) {
+                // Init the inner dragable element.
+                const headerComponent = new Header({
+                    ...this,
+                    element: sectionItem,
+                    fullregion: this.element,
+                });
+                this.configDragDrop(headerComponent);
+            }
+        }
+        this._openSectionIfNecessary();
     }
 
-    // Find the affected action.
-    const affectedAction = this.getElement(selector);
-    if (!affectedAction) {
-      return;
+    /**
+     * Open the section if the anchored activity is inside.
+     */
+    async _openSectionIfNecessary() {
+        const pageCmInfo = this.reactive.getPageAnchorCmInfo();
+        if (!pageCmInfo || pageCmInfo.sectionid !== this.id) {
+            return;
+        }
+        await this.reactive.dispatch('sectionContentCollapsed', [this.id], false);
+        const pendingOpen = new Pending(`courseformat/section:openSectionIfNecessary`);
+        this.element.scrollIntoView({block: "center"});
+        setTimeout(() => {
+            this.reactive.dispatch('setPageItem', 'cm', pageCmInfo.id);
+            pendingOpen.resolve();
+        }, 250);
     }
-    // Change action.
-    affectedAction.dataset.action = newAction;
-    // Change text.
-    const actionText = affectedAction.querySelector(this.selectors.ACTIONTEXT);
-    if (affectedAction.dataset?.swapname && actionText) {
-      const oldText = actionText?.innerText;
-      actionText.innerText = affectedAction.dataset.swapname;
-      affectedAction.dataset.swapname = oldText;
-    }
-    // Change icon.
-    const icon = affectedAction.querySelector(this.selectors.ICON);
-    if (affectedAction.dataset?.swapicon && icon) {
-      const newIcon = affectedAction.dataset.swapicon;
-      if (newIcon) {
-        const pixHtml = await Templates.renderPix(newIcon, "core");
-        Templates.replaceNode(icon, pixHtml, "");
-      }
-    }
-  }
 
-  async _showLastSectionModal(state) {
-    const section = state.section.get(this.id);
-    if (
-      section.showLastSectionModal &&
-      window.location.href == section.sectionurl.replace(/&amp;/g, "&")
-    ) {
-      const modal = await ModalFactory.create({
-        type: mooin1pagerModal.TYPE,
-        title: await getString(
-          "modal_last_section_of_chapter_title",
-          "format_mooin1pager"
-        ),
-        body: Templates.render(
-          "format_mooin1pager/local/content/modals/lastsection",
-          {}
-        ),
-        footer: Templates.render(
-          "format_mooin1pager/local/content/modals/modalfooterclose",
-          {}
-        ),
-        scrollable: false,
-      });
-      modal.show();
-      modal.showFooter();
-      this.reactive.dispatch("setLastSectionModal", this.id);
+    /**
+     * Component watchers.
+     *
+     * @returns {Array} of watchers
+     */
+    getWatchers() {
+        return [
+            {watch: `section[${this.id}]:updated`, handler: this._refreshSection},
+        ];
     }
-  }
+
+    /**
+     * Validate if the drop data can be dropped over the component.
+     *
+     * @param {Object} dropdata the exported drop data.
+     * @returns {boolean}
+     */
+    validateDropData(dropdata) {
+        // If the format uses one section per page sections dropping in the content is ignored.
+        if (dropdata?.type === 'section' && this.reactive.sectionReturn !== null) {
+            return false;
+        }
+        return super.validateDropData(dropdata);
+    }
+
+    /**
+     * Get the last CM element of that section.
+     *
+     * @returns {element|null}
+     */
+    getLastCm() {
+        const cms = this.getElements(this.selectors.CM);
+        // DndUpload may add extra elements so :last-child selector cannot be used.
+        if (!cms || cms.length === 0) {
+            return null;
+        }
+        const lastCm = cms[cms.length - 1];
+        // If it is a delegated section return the last item overall.
+        if (this.section.component !== null) {
+            return lastCm;
+        }
+        // If it is a regular section and the last item overall has a parent cm, return the parent instead.
+        const parentSection = lastCm.parentNode.closest(this.selectors.CM);
+        return parentSection ?? lastCm;
+    }
+
+    /**
+     * Get a fallback element when there is no CM in the section.
+     *
+     * @returns {element|null} the las course module element of the section.
+     */
+    getLastCmFallback() {
+        // The sectioninfo is always present, even when the section is empty.
+        return this.getElement(this.selectors.SECTIONINFO);
+    }
+
+    /**
+     * Update a content section using the state information.
+     *
+     * @param {object} param
+     * @param {Object} param.element details the update details.
+     */
+    _refreshSection({element}) {
+        // Update classes.
+        this.element.classList.toggle(this.classes.DRAGGING, element.dragging ?? false);
+        this.element.classList.toggle(this.classes.LOCKED, element.locked ?? false);
+        this.element.classList.toggle(this.classes.HIDDEN, !element.visible ?? false);
+        this.element.classList.toggle(this.classes.CURRENT, element.current ?? false);
+        this.locked = element.locked;
+        // The description box classes depends on the section state.
+        const sectioninfo = this.getElement(this.selectors.SECTIONINFO);
+        if (sectioninfo) {
+            sectioninfo.classList.toggle(this.classes.HASDESCRIPTION, element.hasrestrictions);
+        }
+        // Update section badges and menus.
+        this._updateBadges(element);
+        this._updateActionsMenu(element);
+    }
+
+    /**
+     * Update a section badges using the state information.
+     *
+     * @param {object} section the section state.
+     */
+    _updateBadges(section) {
+        const current = this.getElement(`${this.selectors.SECTIONBADGES} [data-type='iscurrent']`);
+        current?.classList.toggle(this.classes.HIDE, !section.current);
+
+        const hiddenFromStudents = this.getElement(`${this.selectors.SECTIONBADGES} [data-type='hiddenfromstudents']`);
+        hiddenFromStudents?.classList.toggle(this.classes.HIDE, section.visible);
+    }
+
+    /**
+     * Update a section action menus.
+     *
+     * @param {object} section the section state.
+     */
+    async _updateActionsMenu(section) {
+        let selector;
+        let newAction;
+        if (section.visible) {
+            selector = this.selectors.SHOWSECTION;
+            newAction = 'sectionHide';
+        } else {
+            selector = this.selectors.HIDESECTION;
+            newAction = 'sectionShow';
+        }
+        // Find the affected action.
+        const affectedAction = this._getActionMenu(selector);
+        if (!affectedAction) {
+            return;
+        }
+        // Change action.
+        affectedAction.dataset.action = newAction;
+        // Change text.
+        const actionText = affectedAction.querySelector(this.selectors.ACTIONTEXT);
+        if (affectedAction.dataset?.swapname && actionText) {
+            const oldText = actionText?.innerText;
+            actionText.innerText = affectedAction.dataset.swapname;
+            affectedAction.dataset.swapname = oldText;
+        }
+        // Change icon.
+        const icon = affectedAction.querySelector(this.selectors.ICON);
+        if (affectedAction.dataset?.swapicon && icon) {
+            const newIcon = affectedAction.dataset.swapicon;
+            affectedAction.dataset.swapicon = affectedAction.dataset.icon;
+            affectedAction.dataset.icon = newIcon;
+            if (newIcon) {
+                const pixHtml = await Templates.renderPix(newIcon, 'core');
+                Templates.replaceNode(icon, pixHtml, '');
+            }
+        }
+    }
+
+    /**
+     * Get the action menu element from the selector.
+     *
+     * @param {string} selector The selector to find the action menu.
+     * @returns The action menu element.
+     */
+    _getActionMenu(selector) {
+        return document.querySelector(`${this.selectors.ACTIONMENU}[data-sectionid='${this.id}'] ${selector}`);
+    }
+
 
   _hvpListener() {
     var h5p_contentIds = [];
