@@ -67,6 +67,7 @@ class section extends section_base {
         $course = $this->format->get_course();
 
         $courseurl = new moodle_url('/course/view.php', ['id' => $course->id]);
+        $data->sectionurl = $courseurl->out(false);
         $data->courseurl = $courseurl->out(false);
         return $data;
     }
