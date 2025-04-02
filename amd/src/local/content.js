@@ -369,10 +369,14 @@ export default class Component extends BaseComponent {
             if (index[item.id] === undefined) {
                 return true;
             }
-
+    
             const element = index[item.id].element;
             pageItem = item;
-            return pageOffset >= element.offsetTop;
+    
+            const absoluteOffset = getAbsoluteOffset(element);
+            const absoluteTop = absoluteOffset.top;
+    
+            return pageOffset >= absoluteTop;
         });
         if (pageItem) {
             this.reactive.dispatch('setPageItem', pageItem.type, pageItem.id);
@@ -766,3 +770,17 @@ export default class Component extends BaseComponent {
       }
   }
   
+//helperfunction to get absolute offset of elements
+function getAbsoluteOffset(element) {
+    let top = 0;
+    let left = 0;
+    let currentElement = element;
+
+    while (currentElement) {
+        top += currentElement.offsetTop;
+        left += currentElement.offsetLeft;
+        currentElement = currentElement.offsetParent;
+    }
+
+    return { top, left };
+}
