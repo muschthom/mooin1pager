@@ -88,6 +88,14 @@ class coursefrontpage implements renderable {
         require_once(__DIR__ . '/../../../../lib.php');
         $courseid = $course->id;
 
+        //toggle welcome message
+        if (get_toggle_welcome_message($courseid) === 1) {
+            $data->welcome = true; 
+        }
+        else {
+           $data->welcome = false; 
+        }
+
         //handle data for course element visibility
         if (get_toggle_newssection_visibility($courseid) === 1) {
             $data->newssection_visibility = true; 

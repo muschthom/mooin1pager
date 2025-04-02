@@ -260,6 +260,10 @@ class format_mooin1pager extends core_courseformat\base {
                     'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
                 ],
+                'toggle_welcome_message' => [
+                    'default' => 1,  // Standardwert (0 = nicht ausgewählt)
+                    'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
+                ],
                 'toggle_courseindex_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
@@ -302,6 +306,12 @@ class format_mooin1pager extends core_courseformat\base {
                         0 => new lang_string('hiddensectionscollapsed'),
                         1 => new lang_string('hiddensectionsinvisible')
                     ]],
+                ],
+                'toggle_welcome_message' => [
+                    'label' => new lang_string('toggle_welcome_message', 'format_mooin1pager'),
+                    'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
+                    'help' => 'toggle_welcome_message',
+                    'help_component' => 'format_mooin1pager',
                 ],
                 'toggle_courseindex_visibility' => [
                     'label' => new lang_string('toggle_courseindex_visibility', 'format_mooin1pager'),
@@ -638,14 +648,14 @@ function get_toggle_certificate_visibility($courseid) {
     }
 }
 
-
-/*
- 'toggle_badge_visibility' => [
-                    'default' => 1,  // Standardwert (0 = nicht ausgewählt)
-                    'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
-                ],
-                'toggle_certificate_visibility' => [
-                    'default' => 1,  // Standardwert (0 = nicht ausgewählt)
-                    'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
-                ],
-                */
+function get_toggle_welcome_message($courseid) {
+    $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
+    $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
+    // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
+    if (isset($formatoptions['toggle_welcome_message'])) {
+        return $formatoptions['toggle_welcome_message'];
+    } else {
+        $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
+        return $courseformatoptions['toggle_welcome_message']['default'];
+    }
+}

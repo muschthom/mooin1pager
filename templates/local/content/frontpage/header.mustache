@@ -28,7 +28,9 @@
     {{/headerimageURLMobile}}
 
     <div class="title-overlay position-absolute" data-for="title-overlay">
+    {{#welcome}}
         <p> {{#str}}welcome, format_mooin1pager{{/str}} </p>
-        <h2>{{coursename}}</h2>
+    {{/welcome}}
+    <h2>{{coursename}}</h2>
     </div>
 </div>
