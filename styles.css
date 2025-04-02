@@ -2,8 +2,9 @@
     .course-section {
         margin: 1.5rem 1.875rem;
     }
+
     #mooin-sections {
-        margin-top: 2rem !important;  
+        margin-top: 2rem !important;
     }
 }
 
@@ -42,10 +43,15 @@
     text-decoration: none;
 }
 
-.course-section .section-item{
+.course-section .section-item {
     border-radius: 0.25rem !important;
 }
 
 .hide-block {
     display: none !important;
+}
+
+#region-main-box {
+    justify-content: center !important;
+    display: flex;
 }

@@ -164,6 +164,15 @@ class coursefrontpage implements renderable {
             $data->badge_cert_hide = true;
         }
 
+        if (
+            get_toggle_badge_visibility($courseid) === 0
+            && get_toggle_certificate_visibility($courseid) === 0
+            && get_toggle_discussion_visibility($courseid) === 0
+            && get_toggle_userlist_visibility($courseid) === 0
+        ) {
+            $data->hide_coursefrontpage_side = true;
+        }
+
         $coursecontext = context_course::instance($course->id);
         if (has_capability('moodle/course:update', $coursecontext)) {
             $data->has_capability = true;
