@@ -197,8 +197,8 @@ $string['all_news'] = 'news forum';
 $string['latest_post'] = 'Latest post';
 $string['discussion_news'] = 'View post';
 
-$string['toggle_section_number_visibility'] = 'Activate section numbers';
-$string['toggle_section_number_visibility_help'] = 'If the option is enabled, "Chapter x.x" or "Lesson x.x" will be displayed before the custom chapter and lesson names.';
+$string['toggle_mooin1pgr_section_number_visibility'] = 'Activate section numbers';
+$string['toggle_mooin1pgr_section_number_visibility_help'] = 'If the option is enabled, "Chapter x.x" or "Lesson x.x" will be displayed before the custom chapter and lesson names.';
 
 // new Section 0
 $string['youareeditingsectioninfo'] = 'In this course format, the contents of this section are processed hidden. You can use it as usual for hidden content in Moodle. However, no content is displayed in this section itself.';
@@ -211,26 +211,26 @@ $string['mycoursecompetencies'] = 'My course competencies';
 $string['include_in_sidebar'] = 'Display in sidebar';
 
 //course menu settings
-$string['toggle_courseindex_visibility'] = 'Show Course Index';
-$string['toggle_courseindex_visibility_help'] = 'When activated, the course index is displayed in the course.';
+$string['toggle_mooin1pgr_courseindex_visibility'] = 'Show Course Index';
+$string['toggle_mooin1pgr_courseindex_visibility_help'] = 'When activated, the course index is displayed in the course.';
 
-$string['toggle_newssection_visibility'] = 'Show News Section with Post-Preview';
-$string['toggle_newssection_visibility_help'] = 'When activated, the news section with preview of the last post is displayed in the course.';
+$string['toggle_mooin1pgr_newssection_visibility'] = 'Show News Section with Post-Preview';
+$string['toggle_mooin1pgr_newssection_visibility_help'] = 'When activated, the news section with preview of the last post is displayed in the course.';
 
-$string['toggle_progressbar_visibility'] = 'Show Progressbar';
-$string['toggle_progressbar_visibility_help'] = 'When activated, the progress bar is displayed in the course.';
+$string['toggle_mooin1pgr_progressbar_visibility'] = 'Show Progressbar';
+$string['toggle_mooin1pgr_progressbar_visibility_help'] = 'When activated, the progress bar is displayed in the course.';
 
-$string['toggle_badge_visibility'] = 'Show Badge Tile';
-$string['toggle_badge_visibility_help'] = 'When activated, the badge tile is displayed in the course.';
+$string['toggle_mooin1pgr_badge_visibility'] = 'Show Badge Tile';
+$string['toggle_mooin1pgr_badge_visibility_help'] = 'When activated, the badge tile is displayed in the course.';
 
-$string['toggle_certificate_visibility'] = 'Show Certificate Tile';
-$string['toggle_certificate_visibility_help'] = 'When activated, the certificate tile is displayed in the course.';
+$string['toggle_mooin1pgr_certificate_visibility'] = 'Show Certificate Tile';
+$string['toggle_mooin1pgr_certificate_visibility_help'] = 'When activated, the certificate tile is displayed in the course.';
 
-$string['toggle_discussion_visibility'] = 'Show Discussion Tile in Community Section';
-$string['toggle_discussion_visibility_help'] = 'When activated, the discussion tile is displayed in the community tile.';
+$string['toggle_mooin1pgr_discussion_visibility'] = 'Show Discussion Tile in Community Section';
+$string['toggle_mooin1pgr_discussion_visibility_help'] = 'When activated, the discussion tile is displayed in the community tile.';
 
-$string['toggle_userlist_visibility'] = 'Show User List in Community Section';
-$string['toggle_userlist_visibility_help'] = 'When activated, the user list of the last attending users is displayed in the community tile.';
+$string['toggle_mooin1pgr_userlist_visibility'] = 'Show User List in Community Section';
+$string['toggle_mooin1pgr_userlist_visibility_help'] = 'When activated, the user list of the last attending users is displayed in the community tile.';
 
-$string['toggle_welcome_message'] = 'Show "Welcome"-message';
-$string['toggle_welcome_message_help'] = 'When activated, “Welcome to the course” is displayed in the overlay of the header image.';
+$string['toggle_mooin1pgr_welcome_message'] = 'Show "Welcome"-message';
+$string['toggle_mooin1pgr_welcome_message_help'] = 'When activated, “Welcome to the course” is displayed in the overlay of the header image.';

@@ -89,7 +89,7 @@ class coursefrontpage implements renderable {
         $courseid = $course->id;
 
         //toggle welcome message
-        if (get_toggle_welcome_message($courseid) === 1) {
+        if (get_toggle_mooin1pgr_welcome_message($courseid) === 1) {
             $data->welcome = true; 
         }
         else {
@@ -97,28 +97,28 @@ class coursefrontpage implements renderable {
         }
 
         //handle data for course element visibility
-        if (get_toggle_newssection_visibility($courseid) === 1) {
+        if (get_toggle_mooin1pgr_newssection_visibility($courseid) === 1) {
             $data->newssection_visibility = true; 
         }
         else {
            $data->newssection_visibility = false; 
         }
 
-        if (get_toggle_progressbar_visibility($courseid) === 1) {
+        if (get_toggle_mooin1pgr_progressbar_visibility($courseid) === 1) {
             $data->progressbar_visibility = true; 
         }
         else {
             $data->progressbar_visibility = false; 
         }
 
-        if (get_toggle_discussion_visibility($courseid) === 1) {
+        if (get_toggle_mooin1pgr_discussion_visibility($courseid) === 1) {
             $data->discussion_visibility = true; 
         }
         else {
             $data->discussion_visibility = false; 
         }
 
-        if (get_toggle_userlist_visibility($courseid) === 1) {
+        if (get_toggle_mooin1pgr_userlist_visibility($courseid) === 1) {
             $data->userlist_visibility = true; 
         }
         else {
@@ -126,22 +126,22 @@ class coursefrontpage implements renderable {
         }
 
         if (
-            get_toggle_discussion_visibility($courseid) === 0
-            && get_toggle_userlist_visibility($courseid) === 0
+            get_toggle_mooin1pgr_discussion_visibility($courseid) === 0
+            && get_toggle_mooin1pgr_userlist_visibility($courseid) === 0
         ) {
             $data->community_visibility = false;
         } else {
             $data->community_visibility = true;
         }
 
-        if (get_toggle_badge_visibility($courseid) === 1) {
+        if (get_toggle_mooin1pgr_badge_visibility($courseid) === 1) {
             $data->badge_visibility = true; 
         }
         else {
             $data->badge_visibility = false; 
         }
   
-        if (get_toggle_certificate_visibility($courseid) === 1) {
+        if (get_toggle_mooin1pgr_certificate_visibility($courseid) === 1) {
             $data->certificate_visibility = true; 
         }
         else {
@@ -149,8 +149,8 @@ class coursefrontpage implements renderable {
         }
         
         if (
-            get_toggle_badge_visibility($courseid) === 1
-            && get_toggle_certificate_visibility($courseid) === 1
+            get_toggle_mooin1pgr_badge_visibility($courseid) === 1
+            && get_toggle_mooin1pgr_certificate_visibility($courseid) === 1
         ) {
             $data->badge_cert_visibility = true;
         } else {
@@ -158,17 +158,17 @@ class coursefrontpage implements renderable {
         }
 
         if (
-            get_toggle_badge_visibility($courseid) === 0
-            && get_toggle_certificate_visibility($courseid) === 0
+            get_toggle_mooin1pgr_badge_visibility($courseid) === 0
+            && get_toggle_mooin1pgr_certificate_visibility($courseid) === 0
         ) {
             $data->badge_cert_hide = true;
         }
 
         if (
-            get_toggle_badge_visibility($courseid) === 0
-            && get_toggle_certificate_visibility($courseid) === 0
-            && get_toggle_discussion_visibility($courseid) === 0
-            && get_toggle_userlist_visibility($courseid) === 0
+            get_toggle_mooin1pgr_badge_visibility($courseid) === 0
+            && get_toggle_mooin1pgr_certificate_visibility($courseid) === 0
+            && get_toggle_mooin1pgr_discussion_visibility($courseid) === 0
+            && get_toggle_mooin1pgr_userlist_visibility($courseid) === 0
         ) {
             $data->hide_coursefrontpage_side = true;
         }

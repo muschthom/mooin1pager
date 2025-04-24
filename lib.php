@@ -49,7 +49,7 @@ class format_mooin1pager extends core_courseformat\base {
     public function uses_course_index() {
         $course = $this->get_course();
         $courseid = $course->id;
-        if (get_toggle_courseindex_visibility($courseid) === 1){
+        if (get_toggle_mooin1pgr_courseindex_visibility($courseid) === 1){
             return true;
         } else {
             return false;
@@ -260,35 +260,35 @@ class format_mooin1pager extends core_courseformat\base {
                     'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
                 ],
-                'toggle_welcome_message' => [
+                'toggle_mooin1pgr_welcome_message' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_courseindex_visibility' => [
+                'toggle_mooin1pgr_courseindex_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_newssection_visibility' => [
+                'toggle_mooin1pgr_newssection_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_progressbar_visibility' => [
+                'toggle_mooin1pgr_progressbar_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_badge_visibility' => [
+                'toggle_mooin1pgr_badge_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_certificate_visibility' => [
+                'toggle_mooin1pgr_certificate_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_discussion_visibility' => [
+                'toggle_mooin1pgr_discussion_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
-                'toggle_userlist_visibility' => [
+                'toggle_mooin1pgr_userlist_visibility' => [
                     'default' => 1,  // Standardwert (0 = nicht ausgewählt)
                     'type' => PARAM_BOOL,  // Boolean-Wert (Checkbox)
                 ],
@@ -307,52 +307,52 @@ class format_mooin1pager extends core_courseformat\base {
                         1 => new lang_string('hiddensectionsinvisible')
                     ]],
                 ],
-                'toggle_welcome_message' => [
-                    'label' => new lang_string('toggle_welcome_message', 'format_mooin1pager'),
+                'toggle_mooin1pgr_welcome_message' => [
+                    'label' => new lang_string('toggle_mooin1pgr_welcome_message', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_welcome_message',
+                    'help' => 'toggle_mooin1pgr_welcome_message',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_courseindex_visibility' => [
-                    'label' => new lang_string('toggle_courseindex_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_courseindex_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_courseindex_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_courseindex_visibility',
+                    'help' => 'toggle_mooin1pgr_courseindex_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_newssection_visibility' => [
-                    'label' => new lang_string('toggle_newssection_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_newssection_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_newssection_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_newssection_visibility',
+                    'help' => 'toggle_mooin1pgr_newssection_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_progressbar_visibility' => [
-                    'label' => new lang_string('toggle_progressbar_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_progressbar_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_progressbar_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_progressbar_visibility',
+                    'help' => 'toggle_mooin1pgr_progressbar_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_badge_visibility' => [
-                    'label' => new lang_string('toggle_badge_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_badge_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_badge_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_badge_visibility',
+                    'help' => 'toggle_mooin1pgr_badge_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_certificate_visibility' => [
-                    'label' => new lang_string('toggle_certificate_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_certificate_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_certificate_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_certificate_visibility',
+                    'help' => 'toggle_mooin1pgr_certificate_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_discussion_visibility' => [
-                    'label' => new lang_string('toggle_discussion_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_discussion_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_discussion_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_discussion_visibility',
+                    'help' => 'toggle_mooin1pgr_discussion_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
-                'toggle_userlist_visibility' => [
-                    'label' => new lang_string('toggle_userlist_visibility', 'format_mooin1pager'),
+                'toggle_mooin1pgr_userlist_visibility' => [
+                    'label' => new lang_string('toggle_mooin1pgr_userlist_visibility', 'format_mooin1pager'),
                     'element_type' => 'advcheckbox',  // Checkbox-Typ für das Bearbeitungsformular
-                    'help' => 'toggle_userlist_visibility',
+                    'help' => 'toggle_mooin1pgr_userlist_visibility',
                     'help_component' => 'format_mooin1pager',
                 ],
             ];
@@ -564,98 +564,98 @@ function format_mooin1pager_pluginfile($course, $cm, $context, $filearea, $args,
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
-function get_toggle_courseindex_visibility($courseid) {
+function get_toggle_mooin1pgr_courseindex_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_courseindex_visibility'])) {
-        return $formatoptions['toggle_courseindex_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_courseindex_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_courseindex_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_courseindex_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_courseindex_visibility']['default'];
     }
 }
 
-function get_toggle_newssection_visibility($courseid) {
+function get_toggle_mooin1pgr_newssection_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_newssection_visibility'])) {
-        return $formatoptions['toggle_newssection_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_newssection_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_newssection_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_newssection_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_newssection_visibility']['default'];
     }
 }
 
-function get_toggle_progressbar_visibility($courseid) {
+function get_toggle_mooin1pgr_progressbar_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_progressbar_visibility'])) {
-        return $formatoptions['toggle_progressbar_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_progressbar_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_progressbar_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_progressbar_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_progressbar_visibility']['default'];
     }
 }
 
-function get_toggle_discussion_visibility($courseid) {
+function get_toggle_mooin1pgr_discussion_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_discussion_visibility'])) {
-        return $formatoptions['toggle_discussion_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_discussion_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_discussion_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_discussion_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_discussion_visibility']['default'];
     }
 }
 
-function get_toggle_userlist_visibility($courseid) {
+function get_toggle_mooin1pgr_userlist_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_userlist_visibility'])) {
-        return $formatoptions['toggle_userlist_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_userlist_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_userlist_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_userlist_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_userlist_visibility']['default'];
     }
 }
 
-function get_toggle_badge_visibility($courseid) {
+function get_toggle_mooin1pgr_badge_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_badge_visibility'])) {
-        return $formatoptions['toggle_badge_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_badge_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_badge_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_badge_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_badge_visibility']['default'];
     }
 }
 
-function get_toggle_certificate_visibility($courseid) {
+function get_toggle_mooin1pgr_certificate_visibility($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_certificate_visibility'])) {
-        return $formatoptions['toggle_certificate_visibility'];
+    if (isset($formatoptions['toggle_mooin1pgr_certificate_visibility'])) {
+        return $formatoptions['toggle_mooin1pgr_certificate_visibility'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_certificate_visibility']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_certificate_visibility']['default'];
     }
 }
 
-function get_toggle_welcome_message($courseid) {
+function get_toggle_mooin1pgr_welcome_message($courseid) {
     $format = course_get_format($courseid); // Holt das Format für den aktuellen Kurs
     $formatoptions = $format->get_format_options(); // Holt alle Kursformatoptionen
     // Überprüfen, ob die benutzerdefinierte Option gesetzt ist
-    if (isset($formatoptions['toggle_welcome_message'])) {
-        return $formatoptions['toggle_welcome_message'];
+    if (isset($formatoptions['toggle_mooin1pgr_welcome_message'])) {
+        return $formatoptions['toggle_mooin1pgr_welcome_message'];
     } else {
         $courseformatoptions = $format->course_format_options(false); // Standardoptionen holen
-        return $courseformatoptions['toggle_welcome_message']['default'];
+        return $courseformatoptions['toggle_mooin1pgr_welcome_message']['default'];
     }
 }

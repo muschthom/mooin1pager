@@ -679,7 +679,7 @@ class utils {
             require_once(__DIR__ . '/../../lib.php');
             $courseid = $course->id;
             //calc lesson numbers only if nessessary
-            if (get_toggle_section_number_visibility($courseid) === 1) {
+            if (get_toggle_mooin1pgr_section_number_visibility($courseid) === 1) {
 
                 foreach ($sids as $sid) {
                     $section_info = $modinfo->get_section_info_by_id($sid);
