@@ -62,3 +62,16 @@
     background-color: var(--primary-color) !important;
     color: white !important;
 }
+
+
+
+.description {
+    a {
+        text-decoration: underline;
+
+        &::after {
+            font-family: "bootstrap-icons";
+            content: "\F470";
+        }
+    }
+}
