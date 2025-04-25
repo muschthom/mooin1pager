@@ -1016,10 +1016,8 @@ class utils {
 
     public static function subpage_navbar() {
         global $PAGE, $OUTPUT, $COURSE;
-        //$items = $PAGE->navbar->get_items();
+        $items = $PAGE->navbar->get_items();
         $course_items = [];
-
-
 
         $item = new \stdClass();
         $item->text = $COURSE->fullname;
