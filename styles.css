@@ -57,3 +57,8 @@
 .hide-block {
     display: none !important;
 }
+
+.courseindex-item.pageitem {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
