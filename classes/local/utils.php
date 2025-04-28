@@ -55,7 +55,13 @@ class utils {
                         'section' => $sectionid
                     ));
                     foreach ($coursemodules as $coursemodule) {
-                        if ($coursemodule->completion == 2) {
+                        if ($coursemodule->completion == 2 || $coursemodule->completion == 1) {
+                            /*
+                            //0: Keine Abschlussverfolgung aktiviert
+                            //1: Manuelle Abschlussverfolgung – der Benutzer kann die Aktivität selbst als abgeschlossen markieren
+                            //2: Automatische Abschlussverfolgung – das System markiert die Aktivität als abgeschlossen, wenn bestimmte Bedingungen erfüllt sind
+                            */
+
                             $activities[] = $coursemodule;
 
                             $modulename = '';
