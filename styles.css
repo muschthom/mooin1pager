@@ -67,8 +67,6 @@
 
 .description {
     a {
-        text-decoration: underline;
-
         &::after {
             font-family: "bootstrap-icons";
             content: "\F470";
@@ -76,10 +74,10 @@
     }
 }
 
-#region-main{
-    min-width: 100%; 
+#region-main {
+    min-width: 100%;
 }
 
-.coursefrontpage__main{
+.coursefrontpage__main {
     margin: 0 auto !important;
 }
