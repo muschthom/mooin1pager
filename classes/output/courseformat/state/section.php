@@ -24,7 +24,7 @@ use renderable;
 use stdClass;
 use context_course;
 use renderer_base;
-use format_mooin4\local\utils as utils;
+use format_mooin1pager\local\utils as utils;
 use moodle_url;
 
 /**
@@ -50,7 +50,7 @@ class section extends section_base {
     //     $course = $format->get_course();
     //     $sectionnumber = optional_param('section', 0, PARAM_INT);
     //     if ($sectionnumber > 0) {
-    //         set_user_preference('format_mooin4_last_section_in_course_' . $course->id, $sectionnumber, $USER->id);
+    //         set_user_preference('format_mooin1pager_last_section_in_course_' . $course->id, $sectionnumber, $USER->id);
     //     }
     // }
 
