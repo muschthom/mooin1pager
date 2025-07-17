@@ -24,7 +24,7 @@ use renderable;
 use stdClass;
 use context_course;
 use renderer_base;
-use format_mooin4\local\utils as utils;
+use format_mooin1pager\local\utils as utils;
 use moodle_url;
 
 /**

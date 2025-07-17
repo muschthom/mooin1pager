@@ -5,6 +5,7 @@ import notification from 'core/notification';
 import Str from 'core/str';
 import Url from 'core/url';
 import ModalFactory from 'core/modal_factory';
+import updateProgressBar from 'format_mooin1pager/lib';
 
 // ILD Namespace Definition
 const ILD = {};
@@ -122,12 +123,8 @@ ILD.setResult = (contentId, score, maxScore) => {
     score,
     maxScore
   );
-  // ajax.call([
-  //   {
-  //     methodname: 'format_mooin1pager_setgrade',
-  //     args: { contentid: contentId, score, maxscore: maxScore },
-  //   },
-  // ]);
+
+
 };
 
 // Count interactions layers from interactive video element
@@ -154,7 +151,7 @@ ILD.getVideoInteractions = (contentId, content) => {
 
   if (!interactions || (typeof interactions === 'object' && interactionsCounter === 0)) {
 
-//quick fix
+    //quick fix
     /*
     $('.h5p-iframe')[0].contentWindow.onload = () => {
       $('.h5p-iframe')[0].contentWindow.H5P.instances[0].video.on('stateChange', (event) => {
@@ -239,6 +236,7 @@ ILD.checkLibrary = (H5PIntegration, H5PInstance) => {
 
 export default {
   init(H5PInstance, H5PIntegration, sectionId, reactive) {
+    console.log('H5P init');
     ILD.sectionId = sectionId;
     ILD.reactive = reactive;
     ILD.checkLibrary(H5PIntegration, H5PInstance.instances[0]);

@@ -15,15 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Trigger the specified events
  *
- * @package    format_mooin1pager
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     format_mooin4
+ * @category    event
+ * @copyright   2023 ISy TH Lübeck <dev.ild@th-luebeck.de>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2025032407;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2024100100;        // Requires this Moodle version.
-$plugin->component = 'format_mooin1pager';    // Full name of the plugin (used for diagnostics).
+$observers = array(
+    // Badges
+    array(
+        'eventname' => '\core\event\course_module_completion_updated',
+        'callback' => 'format_mooin1pager_observer::check_completion',
+    ),
+); 

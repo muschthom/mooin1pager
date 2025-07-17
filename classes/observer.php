@@ -15,15 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
  *
- * @package    format_mooin1pager
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     format_mooin4
+ * @category    event
+ * @copyright   2023 ISy TH Lübeck <dev.ild@th-luebeck.de>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
  */
+
+use format_mooin1pager\local\utils;
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2025032407;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2024100100;        // Requires this Moodle version.
-$plugin->component = 'format_mooin1pager';    // Full name of the plugin (used for diagnostics).
+class format_mooin1pager_observer {
+    public static function check_completion(\core\event\course_module_completion_updated $event) {
+        //var_dump($event);
+        $userid = $event->userid;
+        $courseid = $event->courseid;
+        $courseprogress = utils::get_course_progress($courseid, $userid);
+
+        //error_log('Completion updated event triggered for user: ' . $userid . ' in course: ' . $courseid . " with progress: " . $courseprogress);
+        
+    }
+}
