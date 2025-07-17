@@ -71,7 +71,10 @@ class utils {
 
                             // activity is hvp, we use the grades to get the individual progress
                             if ($modulename == 'hvp') {
-                                $grading_info = grade_get_grades($courseid, 'mod', 'hvp', $coursemodule->instance, $userid);
+                                global $DB, $USER, $CFG;
+                                require_once($CFG->libdir . '/gradelib.php');
+                                require_once($CFG->dirroot . '/mod/hvp/lib.php');
+                                $grading_info = \grade_get_grades($courseid, 'mod', 'hvp', $coursemodule->instance, $userid);
                                 $grade = $grading_info->items[0]->grades[$userid]->grade;
                                 $grademax = $grading_info->items[0]->grademax;
                                 if (isset($grade) && $grade != 0) {
