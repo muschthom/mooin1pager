@@ -55,6 +55,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function ($, Ajax, Notifica
                             console.log("H5P gefunden");
                             // Listen for xAPI events from H5P
                             pw.H5P.externalDispatcher.on('xAPI', event => {
+                                console.log("H5P xAPI Event:", event);
                                 const courseId = M.cfg.courseId || document.body.dataset.courseid;
                                 //update progress bar on xAPI event
                                 updateProgressBar(courseId);
