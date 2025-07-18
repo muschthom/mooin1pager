@@ -120,8 +120,7 @@ class content extends content_base {
             $addsection = new $this->addsectionclass($format);
             $data->numsections = $addsection->export_for_template($output);
         }
-        $PAGE->requires->js_call_amd('format_mooin1pager/mutations', 'init');
-        $PAGE->requires->js_call_amd('format_mooin1pager/section', 'init');
+        $PAGE->requires->js_call_amd('format_mooin1pager/custom', 'init');
 
         return $data;
     }
