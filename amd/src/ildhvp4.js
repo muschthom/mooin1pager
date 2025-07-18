@@ -1,10 +1,12 @@
 // Import der Abhängigkeiten
 import $ from 'jquery';
-import ajax from 'core/ajax';
+import Ajax from 'core/ajax';
 import notification from 'core/notification';
 import Str from 'core/str';
 import Url from 'core/url';
 import ModalFactory from 'core/modal_factory';
+import lib from 'format_mooin1pager/lib';
+import Update from 'format_mooin1pager/udateprogressbar';
 
 // ILD Namespace Definition
 const ILD = {};
@@ -114,21 +116,29 @@ ILD.xAPIAnsweredListener = (event) => {
 
 // Post answered results for user and set progress
 ILD.setResult = (contentId, score, maxScore) => {
-  window.console.log(score);
-  ILD.reactive.dispatch(
-    "updateSectionprogress",
-    ILD.sectionId,
-    contentId,
-    score,
-    maxScore
-  );
-  // ajax.call([
-  //   {
-  //     methodname: 'format_mooin1pager_setgrade',
-  //     args: { contentid: contentId, score, maxscore: maxScore },
-  //   },
-  // ]);
+  console.log("get score: ", score);
+
+  const courseId = M.cfg.courseId || document.body.dataset.courseid;
+
+  Ajax.call([{
+    methodname: 'format_mooin1pager_setgrade',
+    args: { contentid: contentId, score, maxscore: maxScore }
+  }])[0]
+    .then(result => {
+      console.log("AJAX setgrade result:", result);
+
+      if (courseId) {
+        Update.updateProgressBar(courseId);
+      }
+
+    })
+    .catch(error => {
+      console.error("setgrade AJAX error:", error);
+      Notification.exception(error);
+    });
 };
+
+
 
 
 // Check if library is InteractiveVideo or QuestionSet
