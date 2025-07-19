@@ -67,19 +67,34 @@
 
 .description {
     a {
-        text-decoration: underline;
 
         &::after {
             font-family: "bootstrap-icons";
             content: "\F470";
         }
     }
+
+    a:hover {
+        text-decoration: underline;
+    }
 }
 
-#region-main{
-    min-width: 100%; 
+/* Bild-Links werden überschrieben (Symbol wird ausgeblendet) */
+.description a img+ ::after,
+.description a:has(img)::after {
+    /* falls unterstützt */
+    content: "";
 }
 
-.coursefrontpage__main{
+.description a:not(:has(img))::after {
+    font-family: "bootstrap-icons";
+    content: "\F470";
+}
+
+#region-main {
+    min-width: 100%;
+}
+
+.coursefrontpage__main {
     margin: 0 auto !important;
 }
