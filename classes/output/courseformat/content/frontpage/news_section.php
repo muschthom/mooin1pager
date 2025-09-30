@@ -30,6 +30,9 @@ class news_section implements renderable {
 
         $course = $this->format->get_course();
 
+        // Default to null to avoid undefined variable notices when no news forum exists.
+        $newsforumUrl = null;
+
         if ($forum = $DB->get_record('forum', array('course' => $course->id, 'type' => 'news'))) {
             if ($module = $DB->get_record('modules', array('name' => 'forum'))) {
                 if($cm = $DB->get_record('course_modules', array('module' => $module->id, 'instance'=>$forum->id))){
@@ -40,17 +43,23 @@ class news_section implements renderable {
         }
 
         $last_post = utils::get_last_news($course->id, 'news');
-        
+
+        $unread = 0;
+        if (is_array($last_post) && array_key_exists('unread_news_number', $last_post)) {
+            $unread = (int)$last_post['unread_news_number'];
+        }
 
         $data = (object)[
             'newsforumUrl' => $newsforumUrl,
             'previewPost' => $last_post,
-            'unreadNewsNumber' => $last_post['unread_news_number'],
+            'unreadNewsNumber' => $unread,
         ];
 
-        if ($last_post['unread_news_number'] == 0) {
+        
+
+        if ($unread == 0) {
             $data->no_new_news = true;
-        } else if ($last_post['unread_news_number'] == 1) {
+        } else if ($unread === 1) {
             $data->one_new_news = true;
         }
 

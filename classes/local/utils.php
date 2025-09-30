@@ -430,11 +430,16 @@ class utils {
         global $DB, $USER;
 
         // SQL query to get all unread posts
-        $sql = 'SELECT fp.*, f.id as forumid, fd.groupid, fd.id as discussionid, cm.id as cmid
-                FROM {forum_posts} as fp
-                JOIN {forum_discussions} as fd ON fp.discussion = fd.id
-                JOIN {forum} as f ON fd.forum = f.id
-                JOIN {course_modules} as cm ON cm.instance = f.id
+    // Ensure the first column in the result set remains unique per post.
+    // Constrain the course_modules join to the forum module to avoid duplicate rows per post
+    // that would otherwise trigger Moodle's get_records_sql unique-key warning.
+        $sql = 'SELECT DISTINCT fp.*, f.id AS forumid, fd.groupid, fd.id AS discussionid, cm.id AS cmid
+                FROM {forum_posts} fp
+                JOIN {forum_discussions} fd ON fp.discussion = fd.id
+                JOIN {forum} f ON fd.forum = f.id
+                JOIN {course_modules} cm ON cm.instance = f.id
+                    AND cm.course = f.course
+                    AND cm.module = (SELECT id FROM {modules} WHERE name = \'forum\')
                 WHERE f.course = :courseid
                 AND cm.visible = 1
                 AND (fp.mailnow = 1 OR fp.created < :wait) ';
