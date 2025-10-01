@@ -7,6 +7,7 @@ import Url from 'core/url';
 import ModalFactory from 'core/modal_factory';
 import lib from 'format_mooin1pager/lib';
 import Update from 'format_mooin1pager/udateprogressbar';
+import { getCurrentCourseEditor } from 'core_courseformat/courseeditor';
 
 // ILD Namespace Definition
 const ILD = {};
@@ -130,11 +131,29 @@ ILD.setResult = (contentId, score, maxScore) => {
       if (courseId) {
         Update.updateProgressBar(courseId);
       }
+      
+      // Trigger completion update for course index if H5P activity is completed
+      if (score >= maxScore && result.cmid) {
+        //console.log(`Attempting to trigger completion for H5P cmid: ${result.cmid}`);
+        
+        // Get reactive instance from the course editor
+        try {
+          const reactive = getCurrentCourseEditor();
+          if (reactive) {
+            //console.log(`Successfully got reactive instance, triggering completion for cmid: ${result.cmid}`);
+            reactive.dispatch('cmCompletion', [result.cmid], true);
+          } else {
+            console.log("Could not get reactive instance from course editor");
+          }
+        } catch (error) {
+          console.error("Error getting reactive instance:", error);
+        }
+      }
 
     })
     .catch(error => {
       console.error("setgrade AJAX error:", error);
-      Notification.exception(error);
+      notification.exception(error);
     });
 };
 

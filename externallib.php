@@ -114,6 +114,7 @@ class format_mooin1pager_external extends external_api {
             'percentage' => $progress['percentage'],
             'courseid' => $courseid,
             'sectionid' => $section_id,
+            'cmid' => $cm->id,
         );
     }
 
@@ -126,7 +127,7 @@ class format_mooin1pager_external extends external_api {
             'sectionid' => new external_value(PARAM_INT, 'Section ID'),
             'percentage' => new external_value(PARAM_FLOAT, 'Percentage of section progress'),
             'courseid' => new external_value(PARAM_INT, 'Course ID'),
-            'sectionid' => new external_value(PARAM_INT, 'Section ID'),
+            'cmid' => new external_value(PARAM_INT, 'Course Module ID'),
         ), 'Section progress');
     }
 }
