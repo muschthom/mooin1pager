@@ -22,9 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import {BaseComponent} from 'core/reactive';
-import {debounce} from 'core/utils';
-import {getCurrentCourseEditor} from 'core_courseformat/courseeditor';
+import { BaseComponent } from 'core/reactive';
+import { debounce } from 'core/utils';
+import { getCurrentCourseEditor } from 'core_courseformat/courseeditor';
 import Config from 'core/config';
 import inplaceeditable from 'core/inplace_editable';
 import Section from 'core_courseformat/local/content/section';
@@ -153,6 +153,18 @@ export default class Component extends BaseComponent {
             "scroll",
             this._scrollHandler
         );
+
+        // Set initial page item when content is ready
+        // Wait for all components to be indexed before setting initial pageItem
+        if (this.reactive.supportComponents) {
+            // Use requestAnimationFrame to ensure DOM is fully rendered and all components are indexed
+            requestAnimationFrame(() => {
+                // Double RAF to ensure layout calculations are complete
+                requestAnimationFrame(() => {
+                    this._pageItemInitHandler();
+                });
+            });
+        }
     }
 
     /**
@@ -223,25 +235,25 @@ export default class Component extends BaseComponent {
         }
         return [
             // State changes that require to reload some course modules.
-            {watch: `cm.visible:updated`, handler: this._reloadCm},
-            {watch: `cm.stealth:updated`, handler: this._reloadCm},
-            {watch: `cm.sectionid:updated`, handler: this._reloadCm},
-            {watch: `cm.indent:updated`, handler: this._reloadCm},
-            {watch: `cm.groupmode:updated`, handler: this._reloadCm},
-            {watch: `cm.name:updated`, handler: this._refreshCmName},
+            { watch: `cm.visible:updated`, handler: this._reloadCm },
+            { watch: `cm.stealth:updated`, handler: this._reloadCm },
+            { watch: `cm.sectionid:updated`, handler: this._reloadCm },
+            { watch: `cm.indent:updated`, handler: this._reloadCm },
+            { watch: `cm.groupmode:updated`, handler: this._reloadCm },
+            { watch: `cm.name:updated`, handler: this._refreshCmName },
             // Update section number and title.
-            {watch: `section.number:updated`, handler: this._refreshSectionNumber},
-            {watch: `section.title:updated`, handler: this._refreshSectionTitle},
+            { watch: `section.number:updated`, handler: this._refreshSectionNumber },
+            { watch: `section.title:updated`, handler: this._refreshSectionTitle },
             // Collapse and expand sections.
-            {watch: `section.contentcollapsed:updated`, handler: this._refreshSectionCollapsed},
+            { watch: `section.contentcollapsed:updated`, handler: this._refreshSectionCollapsed },
             // Sections and cm sorting.
-            {watch: `transaction:start`, handler: this._startProcessing},
-            {watch: `course.sectionlist:updated`, handler: this._refreshCourseSectionlist},
-            {watch: `section.cmlist:updated`, handler: this._refreshSectionCmlist},
+            { watch: `transaction:start`, handler: this._startProcessing },
+            { watch: `course.sectionlist:updated`, handler: this._refreshCourseSectionlist },
+            { watch: `section.cmlist:updated`, handler: this._refreshSectionCmlist },
             // Section visibility.
-            {watch: `section.visible:updated`, handler: this._reloadSection},
+            { watch: `section.visible:updated`, handler: this._reloadSection },
             // Reindex sections and cms.
-            {watch: `state:updated`, handler: this._indexContents},
+            { watch: `state:updated`, handler: this._indexContents },
         ];
     }
 
@@ -251,7 +263,7 @@ export default class Component extends BaseComponent {
      * @param {object} param
      * @param {Object} param.element details the update details.
      */
-    _refreshCmName({element}) {
+    _refreshCmName({ element }) {
         // Update classes.
         // Replace the text content of the cm name.
         const allCmNamesFor = this.getElements(
@@ -272,7 +284,7 @@ export default class Component extends BaseComponent {
      * @param {Object} args.state The state data
      * @param {Object} args.element The element to update
      */
-    _refreshSectionCollapsed({state, element}) {
+    _refreshSectionCollapsed({ state, element }) {
         const target = this.getElement(this.selectors.SECTION, element.id);
         if (!target) {
             throw new Error(`Unknown section with ID ${element.id}`);
@@ -349,7 +361,7 @@ export default class Component extends BaseComponent {
      *
      * @param {Event} event the custom ecent
      */
-    _completionHandler({detail}) {
+    _completionHandler({ detail }) {
         if (detail === undefined) {
             return;
         }
@@ -369,17 +381,91 @@ export default class Component extends BaseComponent {
             if (index[item.id] === undefined) {
                 return true;
             }
-    
+
             const element = index[item.id].element;
             pageItem = item;
-    
+
             const absoluteOffset = getAbsoluteOffset(element);
             const absoluteTop = absoluteOffset.top;
-    
+
             return pageOffset >= absoluteTop;
         });
         if (pageItem) {
             this.reactive.dispatch('setPageItem', pageItem.type, pageItem.id);
+        }
+    }
+
+    /**
+     * Set the initial page item when the course index is ready.
+     * This determines which element should have the "pageitem" class on page load.
+     */
+    _pageItemInitHandler() {
+        console.log("_pageItemInitHandler");
+        const pageOffset = window.scrollY;
+        const items = this.reactive.getExporter().allItemsArray(this.reactive.state);
+        // Check what is the active element now.
+        let pageItem = null;
+        items.every(item => {
+            console.log("every item");
+            const index = (item.type === 'section') ? this.sections : this.cms;
+            console.log("index[item.id] = ", index[item.id]);
+            if (index[item.id] === undefined) {
+                return true;
+            }
+
+            const element = index[item.id].element;
+
+            const absoluteOffset = getAbsoluteOffset(element);
+            const absoluteTop = absoluteOffset.top;
+
+            // Only set pageItem if we haven't scrolled past this element yet
+            if (pageOffset >= absoluteTop) {
+                pageItem = item;
+                return true;
+            }
+            // If pageOffset < absoluteTop, we've found the first element we haven't scrolled to yet
+            // So we stop the loop here and keep the previous pageItem
+            return false;
+        });
+
+        // Fallback: if no pageItem was found (all elements are below the fold), use the first available item
+        if (!pageItem) {
+            console.log("fallback");
+            pageItem = items.find(item => {
+                const index = (item.type === 'section') ? this.sections : this.cms;
+                return index[item.id] !== undefined;
+            });
+
+            let attempts = 0;
+            const maxAttempts = 100; // Maximal 5 Sekunden warten (50 * 100ms)
+
+            const waitForCourseIndexLoad = () => {
+                attempts++;
+
+                const courseIndex = document.querySelector('[data-region="courseindex"]');
+                const courseIndexItems = courseIndex?.querySelectorAll('.courseindex-item');
+                const isLoaded = courseIndex &&
+                    courseIndexItems &&
+                    courseIndexItems.length > 0 &&
+                    !courseIndex.classList.contains('loading');
+
+                if (isLoaded || attempts >= maxAttempts) {
+                    this.reactive.dispatch('setPageItem', pageItem.type, pageItem.id);
+                    console.log(isLoaded ? "after course index loaded" : "timeout reached - pageItem set anyway");
+                } else {
+                    setTimeout(waitForCourseIndexLoad, 100);
+                }
+            };
+
+            waitForCourseIndexLoad();
+        }
+        else if (pageItem) {
+            console.log("set pageItem", pageItem);
+
+
+            this.reactive.dispatch('setPageItem', pageItem.type, pageItem.id);
+            console.log("after timeout");
+            //this.reactive.dispatch('setPageItem', pageItem.type, pageItem.id);
         }
     }
 
@@ -396,7 +482,7 @@ export default class Component extends BaseComponent {
      * @param {Object} param
      * @param {Object} param.element details the update details.
      */
-    _refreshSectionNumber({element}) {
+    _refreshSectionNumber({ element }) {
         // Find the element.
         const target = this.getElement(this.selectors.SECTION, element.id);
         if (!target) {
@@ -435,7 +521,7 @@ export default class Component extends BaseComponent {
      * @param {object} param
      * @param {Object} param.element details the update details.
      */
-    _refreshSectionTitle({element}) {
+    _refreshSectionTitle({ element }) {
         // Replace the text content of the section name in the whole page.
         const allSectionNamesFor = document.querySelectorAll(
             this.selectorGenerators.sectionNameFor(element.id)
@@ -451,7 +537,7 @@ export default class Component extends BaseComponent {
      * @param {Object} param
      * @param {Object} param.element details the update details.
      */
-    _refreshSectionCmlist({element}) {
+    _refreshSectionCmlist({ element }) {
         const cmlist = element.cmlist ?? [];
         const section = this.getElement(this.selectors.SECTION, element.id);
         const listparent = section?.querySelector(this.selectors.SECTION_CMLIST);
@@ -468,7 +554,7 @@ export default class Component extends BaseComponent {
      * @param {Object} param
      * @param {Object} param.state the full state object.
      */
-    _refreshCourseSectionlist({state}) {
+    _refreshCourseSectionlist({ state }) {
         // If we have a section return means we only show a single section so no need to fix order.
         if (this.reactive.sectionReturn !== null) {
             return;
@@ -484,7 +570,7 @@ export default class Component extends BaseComponent {
         //refresh page
         setTimeout(() => {
             window.location.reload();
-        }, 200); 
+        }, 200);
 
     }
 
@@ -551,7 +637,7 @@ export default class Component extends BaseComponent {
      * @param {object} param0 the watcher details
      * @param {object} param0.element the state object
      */
-    _reloadCm({element}) {
+    _reloadCm({ element }) {
         if (!this.getElement(this.selectors.CM, element.id)) {
             return;
         }
@@ -636,7 +722,7 @@ export default class Component extends BaseComponent {
      * @param {details} param0 the watcher details
      * @param {object} param0.element the state object
      */
-    _reloadSection({element}) {
+    _reloadSection({ element }) {
         const pendingReload = new Pending(`courseformat/content:reloadSection_${element.id}`);
         const sectionitem = this.getElement(this.selectors.SECTION, element.id);
         if (sectionitem) {
@@ -664,118 +750,118 @@ export default class Component extends BaseComponent {
         }
     }
 
-        /**
-     * Create a new course module item in a section.
+    /**
+ * Create a new course module item in a section.
+ *
+ * Thos method will append a fake item in the container and trigger an ajax request to
+ * replace the fake element by the real content.
+ *
+ * @param {Element} container the container element (section)
+ * @param {Number} cmid the course-module ID
+ * @returns {Element} the created element
+ */
+    _createCmItem(container, cmid) {
+        const newItem = document.createElement(this.selectors.ACTIVITYTAG);
+        newItem.dataset.for = 'cmitem';
+        newItem.dataset.id = cmid;
+        // The legacy actions.js requires a specific ID and class to refresh the CM.
+        newItem.id = `module-${cmid}`;
+        newItem.classList.add(this.classes.ACTIVITY);
+        container.append(newItem);
+        this._reloadCm({
+            element: this.reactive.get('cm', cmid),
+        });
+        return newItem;
+    }
+
+    /**
+     * Create a new section item.
      *
-     * Thos method will append a fake item in the container and trigger an ajax request to
+     * This method will append a fake item in the container and trigger an ajax request to
      * replace the fake element by the real content.
      *
      * @param {Element} container the container element (section)
-     * @param {Number} cmid the course-module ID
+     * @param {Number} sectionid the course-module ID
      * @returns {Element} the created element
      */
-        _createCmItem(container, cmid) {
-          const newItem = document.createElement(this.selectors.ACTIVITYTAG);
-          newItem.dataset.for = 'cmitem';
-          newItem.dataset.id = cmid;
-          // The legacy actions.js requires a specific ID and class to refresh the CM.
-          newItem.id = `module-${cmid}`;
-          newItem.classList.add(this.classes.ACTIVITY);
-          container.append(newItem);
-          this._reloadCm({
-              element: this.reactive.get('cm', cmid),
-          });
-          return newItem;
-      }
-  
-      /**
-       * Create a new section item.
-       *
-       * This method will append a fake item in the container and trigger an ajax request to
-       * replace the fake element by the real content.
-       *
-       * @param {Element} container the container element (section)
-       * @param {Number} sectionid the course-module ID
-       * @returns {Element} the created element
-       */
-      _createSectionItem(container, sectionid) {
-          const section = this.reactive.get('section', sectionid);
-          const newItem = document.createElement(this.selectors.SECTIONTAG);
-          newItem.dataset.for = 'section';
-          newItem.dataset.id = sectionid;
-          newItem.dataset.number = section.number;
-          // The legacy actions.js requires a specific ID and class to refresh the section.
-          newItem.id = `section-${sectionid}`;
-          newItem.classList.add(this.classes.SECTION);
-          container.append(newItem);
-          this._reloadSection({
-              element: section,
-          });
-          return newItem;
-      }
-  
-      /**
-       * Fix/reorder the section or cms order.
-       *
-       * @param {Element} container the HTML element to reorder.
-       * @param {Array} neworder an array with the ids order
-       * @param {string} selector the element selector
-       * @param {Object} dettachedelements a list of dettached elements
-       * @param {function} createMethod method to create missing elements
-       */
-      async _fixOrder(container, neworder, selector, dettachedelements, createMethod) {
-          if (container === undefined) {
-              return;
-          }
-  
-          // Empty lists should not be visible.
-          if (!neworder.length) {
-              container.classList.add('hidden');
-              container.innerHTML = '';
-              return;
-          }
-  
-          // Grant the list is visible (in case it was empty).
-          container.classList.remove('hidden');
-  
-          // Move the elements in order at the beginning of the list.
-          neworder.forEach((itemid, index) => {
-              let item = this.getElement(selector, itemid) ?? dettachedelements[itemid] ?? createMethod(container, itemid);
-              if (item === undefined) {
-                  // Missing elements cannot be sorted.
-                  return;
-              }
-              // Get the current elemnt at that position.
-              const currentitem = container.children[index];
-              if (currentitem === undefined) {
-                  container.append(item);
-                  return;
-              }
-              if (currentitem !== item) {
-                  container.insertBefore(item, currentitem);
-              }
-          });
-  
-          // Remove the remaining elements.
-          const orphanElements = [];
-          while (container.children.length > neworder.length) {
-              const lastchild = container.lastChild;
-              // Any orphan element is always displayed after the listed elements.
-              // Also, some third-party plugins can use a fake dndupload-preview indicator.
-              if (lastchild?.classList?.contains('dndupload-preview') || lastchild.dataset?.orphan) {
-                  orphanElements.push(lastchild);
-              } else {
-                  dettachedelements[lastchild?.dataset?.id ?? 0] = lastchild;
-              }
-              container.removeChild(lastchild);
-          }
-          // Restore orphan elements.
-          orphanElements.forEach((element) => {
-              container.append(element);
-          });
-      }
-  }
-  
+    _createSectionItem(container, sectionid) {
+        const section = this.reactive.get('section', sectionid);
+        const newItem = document.createElement(this.selectors.SECTIONTAG);
+        newItem.dataset.for = 'section';
+        newItem.dataset.id = sectionid;
+        newItem.dataset.number = section.number;
+        // The legacy actions.js requires a specific ID and class to refresh the section.
+        newItem.id = `section-${sectionid}`;
+        newItem.classList.add(this.classes.SECTION);
+        container.append(newItem);
+        this._reloadSection({
+            element: section,
+        });
+        return newItem;
+    }
+
+    /**
+     * Fix/reorder the section or cms order.
+     *
+     * @param {Element} container the HTML element to reorder.
+     * @param {Array} neworder an array with the ids order
+     * @param {string} selector the element selector
+     * @param {Object} dettachedelements a list of dettached elements
+     * @param {function} createMethod method to create missing elements
+     */
+    async _fixOrder(container, neworder, selector, dettachedelements, createMethod) {
+        if (container === undefined) {
+            return;
+        }
+
+        // Empty lists should not be visible.
+        if (!neworder.length) {
+            container.classList.add('hidden');
+            container.innerHTML = '';
+            return;
+        }
+
+        // Grant the list is visible (in case it was empty).
+        container.classList.remove('hidden');
+
+        // Move the elements in order at the beginning of the list.
+        neworder.forEach((itemid, index) => {
+            let item = this.getElement(selector, itemid) ?? dettachedelements[itemid] ?? createMethod(container, itemid);
+            if (item === undefined) {
+                // Missing elements cannot be sorted.
+                return;
+            }
+            // Get the current elemnt at that position.
+            const currentitem = container.children[index];
+            if (currentitem === undefined) {
+                container.append(item);
+                return;
+            }
+            if (currentitem !== item) {
+                container.insertBefore(item, currentitem);
+            }
+        });
+
+        // Remove the remaining elements.
+        const orphanElements = [];
+        while (container.children.length > neworder.length) {
+            const lastchild = container.lastChild;
+            // Any orphan element is always displayed after the listed elements.
+            // Also, some third-party plugins can use a fake dndupload-preview indicator.
+            if (lastchild?.classList?.contains('dndupload-preview') || lastchild.dataset?.orphan) {
+                orphanElements.push(lastchild);
+            } else {
+                dettachedelements[lastchild?.dataset?.id ?? 0] = lastchild;
+            }
+            container.removeChild(lastchild);
+        }
+        // Restore orphan elements.
+        orphanElements.forEach((element) => {
+            container.append(element);
+        });
+    }
+}
+
 //helperfunction to get absolute offset of elements
 function getAbsoluteOffset(element) {
     let top = 0;
