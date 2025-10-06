@@ -16,8 +16,8 @@
 /**
  * Course index placeholder replacer.
  *
- * @module     core_courseformat/local/courseindex/placeholder
- * @class      core_courseformat/local/courseindex/placeholder
+ * @module     mooin1pager/local/courseindex/placeholder
+ * @class      mooin1pager/local/courseindex/placeholder
  * @copyright  2021 Ferran Recio <ferran@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

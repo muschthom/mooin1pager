@@ -105,7 +105,13 @@
     {{/sections}}
 </div>
 {{#js}}
+{{!
 require(['core_courseformat/local/courseindex/courseindex'], function(component) {
     component.init('course-index');
 });
+}}
+require(['format_mooin1pager/local/courseindex/courseindex'], function(component) {
+    component.init('course-index');
+});
 {{/js}}
+
