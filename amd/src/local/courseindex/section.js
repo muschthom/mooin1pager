@@ -89,11 +89,51 @@ export default class Component extends DndSection {
             });
             this.configDragDrop(titleitem);
         }
-        // Check if the current url is the section url.
+
         const section = state.section.get(this.id);
-        if (window.location.href == section.sectionurl.replace(/&amp;/g, "&")) {
-            this.reactive.dispatch('setPageItem', 'section', this.id);
-            sectionItem.scrollIntoView();
+        const url = new URL(window.location.href);
+        const hasExplicitTarget = url.searchParams.has('section') || /^#section-\d+$/.test(url.hash) || /^#module-\d+$/.test(url.hash);
+        const matchesBaseUrl = window.location.href.split('#')[0] === section.sectionurl.replace(/&amp;/g, "&").split('#')[0];
+        
+        //url has no specific target (#section or #module)
+        if (!hasExplicitTarget) {
+            // highlight second section, first section is section 0 and never visible
+            if (matchesBaseUrl) {
+                window.__mooin1pagerFallbackCount = (window.__mooin1pagerFallbackCount || 0) + 1;
+                const courseState = state.course ?? {};
+                if (window.__mooin1pagerFallbackCount === 2 && !courseState.pageItem) {
+                    this.reactive.dispatch('setPageItem', 'section', this.id);
+                }
+            }
+        } else if (matchesBaseUrl) {
+            const hash = url.hash;
+            const sectionMatch = hash.match(/^#section-(\d+)$/);
+            const moduleMatch = hash.match(/^#module-(\d+)$/);
+
+            let shouldHighlight = false;
+            let sectionid;
+
+            //section match 
+            if (sectionMatch && this.element && this.element.dataset && this.element.dataset.number == sectionMatch[1]) {
+                sectionid = this.id;
+                shouldHighlight = true;
+            }
+            // module match
+            else if (moduleMatch) {
+                const cmid = moduleMatch[1];
+                const moduleEl = document.getElementById(`module-${cmid}`);
+                if (moduleEl) {
+                    this.reactive.dispatch('setPageItem', 'cm', cmid);
+                    moduleEl.scrollIntoView({ block: 'center' });
+                    return;
+                }
+            }
+
+            if (shouldHighlight) {
+                // highlight section 
+                this.reactive.dispatch('setPageItem', 'section', sectionid);
+                sectionItem.scrollIntoView();
+            }
         }
     }
 
@@ -104,9 +144,9 @@ export default class Component extends DndSection {
      */
     getWatchers() {
         return [
-            {watch: `section[${this.id}]:deleted`, handler: this.remove},
-            {watch: `section[${this.id}]:updated`, handler: this._refreshSection},
-            {watch: `course.pageItem:updated`, handler: this._refreshPageItem},
+            { watch: `section[${this.id}]:deleted`, handler: this.remove },
+            { watch: `section[${this.id}]:updated`, handler: this._refreshSection },
+            { watch: `course.pageItem:updated`, handler: this._refreshPageItem },
         ];
     }
 
@@ -125,7 +165,7 @@ export default class Component extends DndSection {
      * @param {Object} param details the update details.
      * @param {Object} param.element the section element
      */
-    _refreshSection({element}) {
+    _refreshSection({ element }) {
         // Update classes.
         const sectionItem = this.getElement(this.selectors.SECTION_ITEM);
         sectionItem.classList.toggle(this.classes.SECTIONHIDDEN, !element.visible);
@@ -145,7 +185,7 @@ export default class Component extends DndSection {
      * @param {Object} details.state the state data.
      * @param {Object} details.element the course state data.
      */
-    _refreshPageItem({element, state}) {
+    _refreshPageItem({ element, state }) {
         if (!element.pageItem) {
             return;
         }
@@ -167,7 +207,7 @@ export default class Component extends DndSection {
         const sectionItem = this.getElement(this.selectors.SECTION_ITEM);
         sectionItem.classList.toggle(this.classes.PAGEITEM, this.pageItem ?? false);
         if (this.pageItem && !this.reactive.isEditing) {
-            this.element.scrollIntoView({block: "nearest"});
+            this.element.scrollIntoView({ block: "nearest" });
         }
     }
 
