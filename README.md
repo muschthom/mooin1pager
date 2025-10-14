@@ -2,7 +2,8 @@
 
 **MOOIN** stands for **Mobile Open Online Interactive eNvironment**.
 
-It is used as Moodle course format for One-Pager courses.
+It is used as Moodle course format for One-Pager courses. As a sibling-format of the [mooin-format](https://github.com/ild-thl/moodle-format_mooin) it can be run individually. Nevertheless because the UI/UX is very close to the mooin-MOOC-theme, this course format is meant to be visually aligned with a platform using also the mooin4-theme.   
+
 ## Installation
 To use the course format, at least two Moodle plugins are necessary.
 
